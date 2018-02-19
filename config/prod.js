@@ -4,4 +4,3 @@ module.exports = {
   mongoURI: process.env.MONGO_URI,
   cookieKey: process.env.COOKIE_KEY
 }
-mongodb://igor_prod:pruction_server@ds241668.mlab.com:41668/emaily-prod123
