@@ -6,6 +6,11 @@ const keys = require("./config/keys")
 require("./models/User")
 require("./services/passport")
 
+/*
+  Connectio is opened, expressed is initialized as app with some middlewhere,
+  our outs module is invoked with app as argument, and app.listen is invoked.
+*/
+
 mongoose.connect(keys.mongoURI)
 
 const app = express()
@@ -16,10 +21,13 @@ app.use(
     keys: [keys.cookieKey],
   })
 )
+
 app.use(passport.initialize())
+
 app.use(passport.session())
 
-require("./routes/auth_routes")(app)
+const authModuleFunc = require("./routes/auth_routes")
+authModuleFunc(app)
 
 
 const PORT = process.env.PORT || 5000 // Heroku env variable
