@@ -8,16 +8,25 @@ module.exports = (app) => {
   app.get( // When someone goes to this URL, run passport.authenticate
     "/auth/google",
     passport.authenticate("google", {
-      scope: ["profile", "email"]
+      scope: ["profile", "email"],
+      prompt: 'select_account'
     })
   )
 
   // If they agree, send us user details
-  app.get("/auth/google/callback", passport.authenticate("google"))
+  app.get(
+    "/auth/google/callback",
+    passport.authenticate("google",
+    {
+     successRedirect: "/surveys",
+     failureRedirect: "/auth/google"
+   })
+  )
 
   app.get("/api/logout", (req, res) => { // logs out user
     req.logout()
-    res.send(req.user)
+    res.redirect('/')
+
   })
 
   app.get("/api/current_user", (req, res) => { // User sees his own data
