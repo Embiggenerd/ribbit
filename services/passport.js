@@ -39,6 +39,7 @@ const keys = require("../config/keys")
   passport.use(new googleStrategy)
 */
 
+// This is how express is
 const User = mongoose.model("users")
 
 passport.serializeUser((user, done) => {
@@ -73,7 +74,10 @@ passport.use(
     // google returns about user, to return user from our database
     async (accessToken, refreshToken, profile, done) => {
       const existingUser = await User.findOne({ googleID: profile.id })
-
+      // These parts where we referece our required mongoose User model
+      // are key. In routes, when we referece req.user, this is how mongoose
+      // talked to mongodb, which talks to our routes functions through
+      // req.user
       if (existingUser) {
         return done(null, existingUser)
       }
