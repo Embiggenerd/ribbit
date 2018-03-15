@@ -5,7 +5,7 @@ const passport = require("passport")
 const keys = require("./config/keys")
 require("./models/User")
 require("./services/passport")
-const bodyParser = require ('body-parser')
+const bodyParser = require("body-parser")
 
 /*
   Connectio is opened, expressed is initialized as app with some middlewhere,
@@ -21,7 +21,7 @@ app.use(bodyParser.json())
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,
-    keys: [keys.cookieKey],
+    keys: [keys.cookieKey]
   })
 )
 
@@ -33,6 +33,19 @@ app.use(passport.session())
 require("./routes/auth_routes")(app)
 require("./routes/billing_routes")(app)
 
+if (process.end.NODE_ENV === "production") {
+  // Express will serve up assets from client
+  // when it route is defined in express
+  app.use(express.static("client/buildc"))
+
+  // Express will serve up the index.html file
+  // when it does not recognize the route
+  const path = require("path")
+  app.get("*", (req, res) => {
+    // index.html contains scripting for react router
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+  })
+}
 
 const PORT = process.env.PORT || 5000 // Heroku env variable
 app.listen(PORT) // Which port to listen on.
