@@ -33,7 +33,7 @@ app.use(passport.session())
 require("./routes/auth_routes")(app)
 require("./routes/billing_routes")(app)
 
-if (process.end.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production") {
   // Express will serve up assets from client
   // when it route is defined in express
   app.use(express.static("client/buildc"))
