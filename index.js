@@ -2,10 +2,12 @@ const express = require("express")
 const mongoose = require("mongoose")
 const cookieSession = require("cookie-session")
 const passport = require("passport")
+const bodyParser = require("body-parser")
 const keys = require("./config/keys")
 require("./models/User")
+require("./models/Survey")
 require("./services/passport")
-const bodyParser = require("body-parser")
+
 
 /*
   Connectio is opened, expressed is initialized as app with some middlewhere,
@@ -32,6 +34,7 @@ app.use(passport.session())
 // Pass express instance to route functions modules
 require("./routes/auth_routes")(app)
 require("./routes/billing_routes")(app)
+require("./routes/survey_routes")(app)
 
 if (process.env.NODE_ENV === "production") {
   // Express will serve up assets from client
