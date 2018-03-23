@@ -27,7 +27,7 @@ const keys = require("../config/keys")
   2) passport.session loads passport object onto req.user, if user is authenticated.
   3) passport.deserializeUser is called by passport.session, and allows us
   to load additional data onto req.user, which we will use in our req handling.
-  4) pass.serializeUser is only used when used goes to specific login route,
+  4) pass.serializeUser is only used when user goes to specific login route,
   not on every request like other things.
 
   The passport session data are these method:
