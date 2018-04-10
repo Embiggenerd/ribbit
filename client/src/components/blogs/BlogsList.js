@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import { fetchBlogs } from "../../actions"
 import { Link } from "react-router-dom"
+import store from '../../index'
 
 /*
 Simply fetches our current list of blogs by user from DB
@@ -12,6 +13,7 @@ class BlogsList extends Component {
   }
 
   renderBlogs() {
+    console.log("state after fetchBlogs: ", store.getState())
     return this.props.blogs.reverse().map(blog => (
       <div key={blog._id} className="card blue-grey darken-1 yellow-text">
         <div className="card-content">
