@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
-import { BrowserRouter, Route } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
 import Landing from './Landing'
 import Dashboard from './dashboard'
+import BlogNew from './blogs/BlogNew'
+import BlogDetailContainer from './blogs/BlogDetailContainer'
 
 import Header from './Header'
 import SurveyNew from './surveys/SurveyNew'
-
-// const Dashboard = () => <h2>Dashboard</h2>
-// const SurveyNew = () => <h2>SurveyNew</h2>
 
 class App extends Component{
   componentDidMount() {
@@ -21,10 +20,19 @@ class App extends Component{
       <div className="container">
         <BrowserRouter>
           <div className="container">
-            <Header/>
+            <Header store={this.props.store}/>
             <Route exact path="/" component={Landing} />
             <Route exact path="/surveys" component={Dashboard} />
             <Route path="/surveys/new" component={SurveyNew} />
+            <Route exact path="/" component={Landing} />
+            <Route exact path="/blogs" component={Dashboard} />
+            <Switch><Route exact path="/blogs/new" component={BlogNew} />
+
+            <Route
+              strict
+              path="/blogs/:title"
+              component={BlogDetailContainer}
+            /></Switch>
           </div>
         </BrowserRouter>
 

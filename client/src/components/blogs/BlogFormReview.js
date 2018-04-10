@@ -5,9 +5,14 @@ import _ from 'lodash'
 import * as actions from '../../actions'
 import { withRouter } from 'react-router-dom'
 
-const SurveyFormReview = (props) => {
-  console.log("submitFormReview props ", props)
-  const {onCancel, formValues, submitSurvey, history} = props
+/*
+* This component passes history to submitBlog action so that it can redirect
+to a React Router url by calling history.push. Otherwise, we would have
+no way to access it.
+*/
+
+const BlogFormReview = (props) => {
+  const {onCancel, formValues, submitBlog, history} = props
   const reviewFields = _.map(formFields, ({ name, label }) => {
     return (
       <div key={name}>
@@ -30,7 +35,7 @@ const SurveyFormReview = (props) => {
         Back
       </button>
       <button
-        onClick={() => submitSurvey(formValues, history)}
+        onClick={() => submitBlog(formValues, history)}
         className="green btn-flat right white-text">
         Send Survey
         <i className="material-icons right">email</i>
@@ -40,7 +45,7 @@ const SurveyFormReview = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  return { formValues: state.form.surveyForm.values }
+  return { formValues: state.form.blogForm.values }
 }
 
-export default connect(mapStateToProps, actions)(withRouter(SurveyFormReview))
+export default connect(mapStateToProps, actions)(withRouter(BlogFormReview))

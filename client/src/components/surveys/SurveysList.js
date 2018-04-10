@@ -2,6 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { fetchSurveys } from '../../actions'
 
+/*
+* This invokes fetch surveys to display a lit of a user's surveys to them. It
+is displayed by Dashboard.
+*/
+
 class SurveysList extends Component {
   componentDidMount() {
     this.props.fetchSurveys()

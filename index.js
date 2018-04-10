@@ -10,8 +10,8 @@ require("./services/passport")
 
 
 /*
-  Connectio is opened, expressed is initialized as app with some middlewhere,
-  our outs module is invoked with app as argument, and app.listen is invoked.
+  Connection is opened, express is initialized as app with some middlewhere,
+  our routes module is invoked with app as argument, and app.listen is invoked.
 */
 
 mongoose.connect(keys.mongoURI)
@@ -35,6 +35,7 @@ app.use(passport.session())
 require("./routes/auth_routes")(app)
 require("./routes/billing_routes")(app)
 require("./routes/survey_routes")(app)
+require("./routes/blog_routes")(app)
 
 if (process.env.NODE_ENV === "production") {
   // Express will serve up assets from client
@@ -52,3 +53,5 @@ if (process.env.NODE_ENV === "production") {
 
 const PORT = process.env.PORT || 5000 // Heroku env variable
 app.listen(PORT) // Which port to listen on.
+
+module.exports = app

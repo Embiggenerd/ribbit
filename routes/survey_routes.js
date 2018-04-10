@@ -82,7 +82,7 @@ module.exports = app => {
       const user = await req.user.save()
       res.send(user)
     } catch (error) {
-      res.stats(422).send(err)
+      res.status(422).send(err)
     }
   })
 }

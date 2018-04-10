@@ -2,6 +2,11 @@ const passport = require("passport")
 const GoogleStrategy = require("passport-google-oauth20").Strategy
 const mongoose = require("mongoose")
 const keys = require("../config/keys")
+// if (process.env.NODE_ENV == 'test' ) {
+//   GoogleStrategy = require('passport-mock').Strategy;
+// } else {
+//   GoogleStrategy = require('passport-google-oauth20').Strategy;
+// }
 
 /*
   Passport is a middlewhere on node which modifies the request object.
@@ -20,7 +25,8 @@ const keys = require("../config/keys")
   it with passport.user ={} if not yet authenticated.
 
   Next, passport.deserializeUser is invoked on this object, and if it's there,
-  considers user authenticated, and attaches the object as req.user.
+  considers user authenticated, and searches db by provided data and then
+  attaches that object as req.user.
 
   1) passport.intitialized invoked on every req, insures session contains
   passport.user object, which may be {}/
@@ -51,7 +57,8 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
   // First argument is id in object serializeUser passes to done.
-
+  // The req.user object is filled out here, where we search
+  // db for User model
   User.findById(id).then(user => {
     done(null, user)
   })

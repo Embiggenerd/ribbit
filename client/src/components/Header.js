@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Payments from './Payments'
+import store from '../index'
 
 class Header extends Component {
   renderContent(){
@@ -24,6 +25,7 @@ class Header extends Component {
   }
 
   render() {
+    // console.log("Global State: ",store.getState())
     return (
       <nav>
         <div className="nav-wrapper">
@@ -31,7 +33,7 @@ class Header extends Component {
             to={this.props.auth ? '/surveys' : '/'}
             className="left brand-logo"
           >
-            Emaily
+            Dashboard
           </Link>
           <ul className="right">
             {this.renderContent()}
@@ -41,7 +43,9 @@ class Header extends Component {
     )
   }
 }
-function mapStateToProps({ auth }){
+
+function mapStateToProps(state){
+  const { auth } = state
   return {
     auth
   }
