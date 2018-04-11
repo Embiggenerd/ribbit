@@ -29,15 +29,11 @@ module.exports = app => {
       _user: req.user.id,
       dateSent: Date.now()
     })
-    // console.log("survey model instance created in api/blogs route: " + blog)
-    // Blogs is actually simple javascript object that contains data from
-    // redux form, but also an array of recipients object with email passed
-    // from form data, and other properties determined in survey model schema.
-    // const mailer = new Mailer(blog, blogTemplate(survey))
+    //console.log("survey model instance created in api/blogs route: ", Blogs)
+
     try {
-      await blog.save()
-      const user = await req.user.save()
-      res.send(user)
+      const savedBlog = await blog.save()
+      res.send(savedBlog)
     } catch (error) {
       res.status(422).send(err)
     }
@@ -80,10 +76,10 @@ module.exports = app => {
       // await mailer.send()
       comment = await comment.save()
       req.user.credits -= 1
-      //await req.user.save()
+      await req.user.save()
       res.send(comment)
     } catch(error) {
-      res.status(422).send(err)
+      res.status(422).send(error)
     }
   })
 
@@ -93,7 +89,7 @@ module.exports = app => {
       if (error) {
         handleError(error)
       } else {
-        console.log(success)
+        //console.log(success)
         res.send(success)
       }
     })

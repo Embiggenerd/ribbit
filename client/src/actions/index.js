@@ -35,13 +35,14 @@ export const fetchSurveys = () => async dispatch => {
 export const submitBlog = (values, history) => async dispatch => {
   const res = await axios.post("/api/blogs", values)
   history.push("/blogs")
-  dispatch({ type: FETCH_USER, payload: res.data })
+  console.log("submitBlog's response: ", res.data)
+  //dispatch({ type: , payload: res.data })
 }
 
 export const fetchBlogDetail = blogId => async dispatch => {
 //  console.log("fetchBlogDetail action was invoked with ", blogId)
   const getUrl = `/api/blog/${blogId}/detail`
-//  console.log(getUrl)
+  console.log("fetchBlogDetail action invoked: ",getUrl)
   const res = await axios.get(getUrl)
 
   dispatch({ type: FETCH_BLOG_DETAIL, payload: res.data })
@@ -61,6 +62,11 @@ export const submitComment = (text, blogId) => async dispatch => {
 
 export const fetchComments = (blogId) => async dispatch => {
   const res = await axios.get(`/api/blog/${blogId}/comments`)
-  console.log("fetchComment's response: ", res.data)
+  // console.log("fetchComment's response: ", res.data)
   dispatch({ type: FETCH_COMMENTS, payload: res.data })
+}
+
+export const deleteBlog = (blogId) => async dispatch => {
+  const res = await axios.delete(`/api/${blogId}/delete`)
+  console.log("deletBlog invoked, deleted: ", res.data)
 }

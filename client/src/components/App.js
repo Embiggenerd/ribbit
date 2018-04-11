@@ -30,7 +30,7 @@ class App extends Component{
 
             <Route
               strict
-              path="/blogs/:title"
+              path="/blogs/:_id"
               component={BlogDetailContainer}
             /></Switch>
           </div>

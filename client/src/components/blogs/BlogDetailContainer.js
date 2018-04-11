@@ -7,13 +7,23 @@ import CommentForm from './CommentForm'
 import CommentsList from './CommentsList'
 
 class BlogDetailContainer extends Component {
+
   componentDidMount() {
-    this.props.fetchBlogDetail(this.props.location.state.blogId)
-    this.props.fetchComments(this.props.location.state.blogId)
-    console.log("BlogDetailContainer's props:", this.props)
+      this.props.fetchComments(this.props.match.params._id)
+      this.props.fetchBlogDetail(this.props.match.params._id)
   }
   renderDetail() {
-    const { title, subject, body, dateSent, neg } = this.props.blogDetail
+    //console.log("BlogDetailContainer's _id in path:", this.props.match.params._id)
+    let blogDetailSource
+    // if(this.props.blogs) {
+    //   blogDetailSource = this.props.blogs[this.props.match.params._id]
+    // } else {
+    //   blogDetailSource = this.props.blogDetail
+    // }
+
+    blogDetailSource = this.props.blogDetail
+
+    const { title, subject, body, dateSent, neg } = blogDetailSource
     return (
       <div>
         <div className="card blue-grey darken-1 yellow-text">
@@ -40,7 +50,7 @@ class BlogDetailContainer extends Component {
     return <div style={{ display: "flex", flexDirection: "column"}}>
         {this.renderDetail()}
         <CommentForm
-          blogId={this.props.location.state.blogId}
+          blogId={this.props.match.params.blogId}
         />
         <CommentsList
           commentsList={this.props.commentsList}
@@ -58,8 +68,9 @@ class BlogDetailContainer extends Component {
 //   )
 // }
 
-const mapStateToProps = ({ blogDetail, commentsList }) => ({
+const mapStateToProps = ({ blogDetail, commentsList, blogs}) => ({
   blogDetail,
-  commentsList
+  commentsList,
+  blogs,
 })
 export default connect(mapStateToProps, { fetchBlogDetail, fetchComments })(BlogDetailContainer)
