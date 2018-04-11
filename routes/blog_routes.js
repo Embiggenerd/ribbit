@@ -75,8 +75,8 @@ module.exports = app => {
     try {
       // await mailer.send()
       comment = await comment.save()
-      req.user.credits -= 1
-      await req.user.save()
+      // req.user.credits -= 1
+      // await req.user.save()
       res.send(comment)
     } catch(error) {
       res.status(422).send(error)

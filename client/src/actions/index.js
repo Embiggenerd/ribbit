@@ -54,9 +54,15 @@ export const fetchBlogs = () => async dispatch => {
   dispatch({ type: FETCH_BLOGS, payload: res.data })
 }
 
+// export const submitComment = (text, blogId) => async dispatch => {
+//   const res = await axios.post("/api/comments/submit", {text, blogId})
+//    console.log("submitComment's res.data ", res.data )
+//    dispatch({ type: SUBMIT_COMMENT, payload:res.data })
+// }
+
 export const submitComment = (text, blogId) => async dispatch => {
+  console.log("submitComment's arguments ", text, blogId )
   const res = await axios.post("/api/comments/submit", {text, blogId})
-   console.log("submitComment's res.data ", res.data )
    dispatch({ type: SUBMIT_COMMENT, payload:res.data })
 }
 

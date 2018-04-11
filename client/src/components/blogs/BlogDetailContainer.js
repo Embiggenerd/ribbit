@@ -13,17 +13,8 @@ class BlogDetailContainer extends Component {
       this.props.fetchBlogDetail(this.props.match.params._id)
   }
   renderDetail() {
-    //console.log("BlogDetailContainer's _id in path:", this.props.match.params._id)
-    let blogDetailSource
-    // if(this.props.blogs) {
-    //   blogDetailSource = this.props.blogs[this.props.match.params._id]
-    // } else {
-    //   blogDetailSource = this.props.blogDetail
-    // }
 
-    blogDetailSource = this.props.blogDetail
-
-    const { title, subject, body, dateSent, neg } = blogDetailSource
+    const { title, subject, body, dateSent, neg } = this.props.blogDetail
     return (
       <div>
         <div className="card blue-grey darken-1 yellow-text">
@@ -47,10 +38,11 @@ class BlogDetailContainer extends Component {
   }
 
   render() {
+    console.log("BlogDetailContainer's params.blogId: ", this.props.match.params)
     return <div style={{ display: "flex", flexDirection: "column"}}>
         {this.renderDetail()}
         <CommentForm
-          blogId={this.props.match.params.blogId}
+          blogId={this.props.match.params._id}
         />
         <CommentsList
           commentsList={this.props.commentsList}
@@ -58,15 +50,6 @@ class BlogDetailContainer extends Component {
       </div>
   }
 }
-
-
-// const BlogDetail = (props) => {
-//   //const {foo} = props.location.state
-//   console.log("detail props: ", props.location.state.foo)
-//   return (
-//     <div>hi there</div>
-//   )
-// }
 
 const mapStateToProps = ({ blogDetail, commentsList, blogs}) => ({
   blogDetail,
