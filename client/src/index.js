@@ -9,8 +9,26 @@ import App from './components/App'
 import reducers from './reducers'
 import axios from 'axios'
 
-const store = createStore(reducers, {}, applyMiddleware(reduxThunk))
+// const loggerMiddleWare = store => next => action => {
+//   console.log('dispatching... ', action)
+//   next()
+// }
 
+// const confirmationMiddleWare = store => next => action => {
+//   if(action.shouldConfirm){
+//     if(window.confirm("Are you sure?")){
+//       next(action)
+//     }
+//
+//   } else {
+//     next(action)
+//   }
+// }
+//
+// const store = createStore(reducers, {}, applyMiddleware(confirmationMiddleWare, reduxThunk))
+//
+
+const store = createStore(reducers, {}, applyMiddleware(reduxThunk))
 export default store
 window.store = store.getState()
 ReactDOM.render(

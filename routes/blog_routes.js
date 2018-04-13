@@ -55,7 +55,6 @@ module.exports = app => {
       if(error){
         console.log(error)
       } else {
-
         res.send(success)
      }
     })
@@ -106,4 +105,41 @@ module.exports = app => {
     //   res.status(422).send(err)
     // }
   })
+
+app.post('/api/comments/:commentId/delete', requireLogin, async (req, res) => {
+  Comment.findByIdAndRemove(req.params.commentId, (error, success) => {
+    if(error){
+      console.log(error)
+    } else {
+      res.send(success)
+    }
+  })
+})
+app.post('/api/blogs/:blogId/delete', requireLogin, async (req, res) => {
+  // const removedBlog = await Blogs.findByIdAndRemove(req.params.blogId, (error, success) => {
+  //   if(error) {
+  //     console.log(error)
+  //   } else {
+  //     res.send(success)
+  //     // Comment.remove({_user: }(error, success) => {
+  //     //   if(error) {
+  //     //     console.log(error)
+  //     //   } else res.send()
+  //     // })
+  //   }
+  // })
+  //console.log("delete blogs router invoked, blogId = ", req.params.blogId)
+   const removedBlog = Blogs.findByIdAndRemove(req.params.blogId, (error, success) => {
+    if(error) {
+      console.log(error)
+    } else {
+      res.send(success)
+      console.log("the id of the removed blog: ",success._id)
+      Comment.remove({_blog:success.id}, (error, success) => {
+        if(error){console.log(error)} else {console.log("removed blog's comments removed: ", success)}
+      })
+    }
+
+  })
+})
 }

@@ -5,7 +5,9 @@ import {
   FETCH_BLOGS,
   FETCH_BLOG_DETAIL,
   FETCH_COMMENTS,
-  SUBMIT_COMMENT
+  SUBMIT_COMMENT,
+  DELETE_COMMENT,
+  DELETE_BLOG
 } from "./types"
 
 export const fetchUser = () => async dispatch => {
@@ -54,12 +56,6 @@ export const fetchBlogs = () => async dispatch => {
   dispatch({ type: FETCH_BLOGS, payload: res.data })
 }
 
-// export const submitComment = (text, blogId) => async dispatch => {
-//   const res = await axios.post("/api/comments/submit", {text, blogId})
-//    console.log("submitComment's res.data ", res.data )
-//    dispatch({ type: SUBMIT_COMMENT, payload:res.data })
-// }
-
 export const submitComment = (text, blogId) => async dispatch => {
   console.log("submitComment's arguments ", text, blogId )
   const res = await axios.post("/api/comments/submit", {text, blogId})
@@ -73,6 +69,13 @@ export const fetchComments = (blogId) => async dispatch => {
 }
 
 export const deleteBlog = (blogId) => async dispatch => {
-  const res = await axios.delete(`/api/${blogId}/delete`)
-  console.log("deletBlog invoked, deleted: ", res.data)
+  const res = await axios.post(`/api/blogs/${blogId}/delete`)
+  console.log("deleteBlog invoked, deleted: ", res.data._id, blogId)
+  dispatch({ type: DELETE_BLOG, payload: res.data})
+}
+
+export const deleteComment = (commentId) => async dispatch => {
+  const res = await axios.post(`/api/comments/${commentId}/delete`)
+
+  dispatch({ type: DELETE_COMMENT, shouldConfirm: true, payload: res.data })
 }

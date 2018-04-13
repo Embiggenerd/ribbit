@@ -2,7 +2,7 @@ import { connect } from "react-redux"
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import { reduxForm, Field } from "redux-form"
-import { fetchBlogDetail, fetchComments } from "../../actions"
+import { fetchBlogDetail, fetchComments, deleteComment } from "../../actions"
 import CommentForm from './CommentForm'
 import CommentsList from './CommentsList'
 
@@ -14,7 +14,7 @@ class BlogDetailContainer extends Component {
   }
   renderDetail() {
 
-    const { title, subject, body, dateSent, neg } = this.props.blogDetail
+    const { title, subject, body, dateSent, neg, } = this.props.blogDetail
     return (
       <div>
         <div className="card blue-grey darken-1 yellow-text">
@@ -45,15 +45,19 @@ class BlogDetailContainer extends Component {
           blogId={this.props.match.params._id}
         />
         <CommentsList
+          auth={this.props.auth}
+          blog_user={this.props.blogDetail._user}
+          deleteComment={this.props.deleteComment}
           commentsList={this.props.commentsList}
         />
       </div>
   }
 }
 
-const mapStateToProps = ({ blogDetail, commentsList, blogs}) => ({
+const mapStateToProps = ({ blogDetail, commentsList, blogs, auth}) => ({
   blogDetail,
   commentsList,
   blogs,
+  auth
 })
-export default connect(mapStateToProps, { fetchBlogDetail, fetchComments })(BlogDetailContainer)
+export default connect(mapStateToProps, { fetchBlogDetail, fetchComments, deleteComment })(BlogDetailContainer)

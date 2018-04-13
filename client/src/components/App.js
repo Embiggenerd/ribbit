@@ -20,7 +20,7 @@ class App extends Component{
       <div className="container">
         <BrowserRouter>
           <div className="container">
-            <Header store={this.props.store}/>
+            <Header/>
             <Route exact path="/" component={Landing} />
             <Route exact path="/surveys" component={Dashboard} />
             <Route path="/surveys/new" component={SurveyNew} />
