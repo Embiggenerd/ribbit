@@ -6,9 +6,7 @@ export default function(state = {}, action) {
     case FETCH_BLOGS:
       return _.mapKeys(action.payload.reverse(), "_id")
     case DELETE_BLOG:
-      console.log("blogReducer's delete action.payload: ", action.payload)
-      const blogToRemove = action.payload._id
-      const { [blogToRemove]: value, ...rest } = state
+      const { [action.payload._id]: value, ...rest } = state
       return rest
     default:
       return state

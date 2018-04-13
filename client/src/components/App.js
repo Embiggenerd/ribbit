@@ -26,13 +26,14 @@ class App extends Component{
             <Route path="/surveys/new" component={SurveyNew} />
             <Route exact path="/" component={Landing} />
             <Route exact path="/blogs" component={Dashboard} />
-            <Switch><Route exact path="/blogs/new" component={BlogNew} />
-
-            <Route
-              strict
-              path="/blogs/:_id"
-              component={BlogDetailContainer}
-            /></Switch>
+            <Switch>
+              <Route exact path="/blogs/new" component={BlogNew} />
+              <Route
+                strict
+                path="/blogs/:_id"
+                component={BlogDetailContainer}
+              />
+            </Switch>
           </div>
         </BrowserRouter>
 

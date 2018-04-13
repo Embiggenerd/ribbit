@@ -1,5 +1,6 @@
 import React from 'react'
 import store from '../../index'
+import { Link } from 'react-router-dom'
 // import _ from 'lodash'
 //import store from "../../index"
 
