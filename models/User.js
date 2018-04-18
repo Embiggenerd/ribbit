@@ -3,8 +3,11 @@ const { Schema } = mongoose
 
 const userSchema = new Schema({
   googleID: String,
-  credits: {type: Number, default: 0}
-
+  credits: {type: Number, default: 0},
+  email: {type: String, required: true},
+  displayName: {type:String, required: true}
 })
 
-mongoose.model('users', userSchema)
+
+
+module.exports = mongoose.model('users', userSchema)

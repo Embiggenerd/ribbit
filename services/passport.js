@@ -65,7 +65,7 @@ passport.deserializeUser((id, done) => {
 })
 
 passport.use(
-  // Our action authentication function. This determines if re.passport.user
+  // Our action authentication function. This determines if req.passport.user
   // is an empty object, and if it isn't what value it will have. In this case,
   // we use the user's google ID, supplied to us by google on project.id.
   new GoogleStrategy(
@@ -80,14 +80,18 @@ passport.use(
     // Notice, we use mongoose model's findOne method, on the profile object
     // google returns about user, to return user from our database
     async (accessToken, refreshToken, profile, done) => {
+      console.log(profile.emails[0].value, profile.displayName)
       const existingUser = await User.findOne({ googleID: profile.id })
-      // These parts where we referece our required mongoose User model
-      // are key. In routes, when we referece req.user, this is how mongoose
-      // talked to mongodb, which talks to our routes functions through
-      // req.user
+
       if (existingUser) {
         return done(null, existingUser)
       }
+      const user = await new User({
+        googleId: profile.id,
+        email: profile.emails[0].value,
+        displayName: profile.displayName
+      }).save()
+      done(null, user)
     }
   )
 )

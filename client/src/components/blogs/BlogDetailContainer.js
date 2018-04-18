@@ -5,12 +5,23 @@ import { reduxForm, Field } from "redux-form"
 import { fetchBlogDetail, fetchComments, deleteComment } from "../../actions"
 import CommentForm from './CommentForm'
 import CommentsList from './CommentsList'
+import scrollToElement from 'scroll-to-element'
 
 class BlogDetailContainer extends Component {
 
   componentDidMount() {
       this.props.fetchComments(this.props.match.params._id)
       this.props.fetchBlogDetail(this.props.match.params._id)
+      console.log("history: ",this.props.history)
+  }
+  componentDidUpdate() {
+    this.jumpToHash();
+  }
+  jumpToHash = () => {
+    const hash = this.props.history.location.hash;
+    if (hash) {
+      scrollToElement(hash, { offset: -120 });
+    }
   }
   renderDetail() {
 

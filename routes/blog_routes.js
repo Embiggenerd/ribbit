@@ -7,6 +7,10 @@ const requireCredits = require("../middlewares/requireCredits")
 const Mailer = require("../services/Mailer")
 const Blogs = require("../models/Blog")
 const Comment = require("../models/Comment")
+const CommentMailer = require('../services/CommentMailer')
+const User = require('../models/User')
+const commentTemplate = require("../services/emailTemplates/commentTemplate")
+
 
 module.exports = app => {
   app.get("/api/blogs", requireLogin, async (req, res) => {
@@ -51,7 +55,7 @@ module.exports = app => {
   app.get('/api/blog/:blogid/detail', requireLogin, async (req, res) => {
     const { blogid } = req.params
 
-    const blog = await Blogs.findById(blogid, function(error, success){
+    const blog = await Blogs.findById(blogid, (error, success) => {
       if(error){
         console.log(error)
       } else {
@@ -63,7 +67,7 @@ module.exports = app => {
     //const blog = Blogs.findOne(_id: )
   })
 
-  app.post('/api/comments/submit', requireLogin, requireCredits, async (req, res) => {
+  app.post('/api/comments/submit', requireLogin, async (req, res) => {
     const { text, blogId } = req.body
     let comment = new Comment({
       text,
@@ -71,15 +75,37 @@ module.exports = app => {
       _blog: blogId,
       datePosted: Date.now()
     })
-    try {
-      // await mailer.send()
-      comment = await comment.save()
-      // req.user.credits -= 1
-      // await req.user.save()
-      res.send(comment)
-    } catch(error) {
-      res.status(422).send(error)
-    }
+    Blogs.findById(blogId, (error, success) => {
+      if (error) {
+        console.log(error)
+      } else {
+        User.findById(success._user, async (error, success) => {
+          if (error) {
+            console.log(error)
+          } else {
+            const mailer = new CommentMailer(success, commentTemplate(comment, success))
+            try {
+              comment = await comment.save()
+              await mailer.send()
+              res.send(comment)
+            } catch (error) {
+              res.status(422).send(error)
+            }
+          }
+
+        })
+      }
+
+    })
+    // try {
+    //   await mailer.send()
+    //   comment = await comment.save()
+    //   // req.user.credits -= 1
+    //   // await req.user.save()
+    //   res.send(comment)
+    // } catch(error) {
+    //   res.status(422).send(error)
+    // }
   })
 
   app.get('/api/blog/:blogId/comments', requireLogin, async (req, res) => {

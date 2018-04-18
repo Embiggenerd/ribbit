@@ -20,37 +20,37 @@ const blogSchema = new Schema({
   lastResponded: Date
 })
 
-blogSchema.statics.postComment = function(blogID, text, author, cb) {
-  const BlogModel = mongoose.model("blog")
-  const CommentModel = mongoose.model("comment")
-  const commentModel = new Comment()
-  commentModel.author = author
-  commentModel.text = text
-
-  BlogModel.findOne({ _id: blogID }, function(err, blogInfo) {
-    // blogInfo is the blog found by findOne
-    if (err) {
-      cb({
-        retStatus: "failure",
-        message: "Blog commenting fail."
-      })
-    } else {
-      if (blogInfo) {
-        blogInfo.comments.push(commentModel)
-        blogInfo.save(function(err) {})
-        cb({
-          retStatus: "success",
-          message: "Comment saved"
-        })
-      } else {
-        cb({
-          retStatus: "failure",
-          message: "Blog not found"
-        })
-      }
-    }
-  })
-}
+// blogSchema.statics.postComment = function(blogID, text, author, cb) {
+//   const BlogModel = mongoose.model("blog")
+//   const CommentModel = mongoose.model("comment")
+//   const commentModel = new Comment()
+//   commentModel.author = author
+//   commentModel.text = text
+//
+//   BlogModel.findOne({ _id: blogID }, function(err, blogInfo) {
+//     // blogInfo is the blog found by findOne
+//     if (err) {
+//       cb({
+//         retStatus: "failure",
+//         message: "Blog commenting fail."
+//       })
+//     } else {
+//       if (blogInfo) {
+//         blogInfo.comments.push(commentModel)
+//         blogInfo.save(function(err) {})
+//         cb({
+//           retStatus: "success",
+//           message: "Comment saved"
+//         })
+//       } else {
+//         cb({
+//           retStatus: "failure",
+//           message: "Blog not found"
+//         })
+//       }
+//     }
+//   })
+// }
 
 //const blog = mongoose.model("blog", blogSchema)
 module.exports = mongoose.model('blog', blogSchema);

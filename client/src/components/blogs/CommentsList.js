@@ -18,6 +18,7 @@ const CommentsList = (props) => {
       default:
           return props.commentsList.map(comment => (
             <div
+              id={"p"+comment._id}
               key={comment._id}
               className="card blue-grey yellow-text"
               >

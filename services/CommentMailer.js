@@ -3,28 +3,28 @@ const helper = sendgrid.mail
 const keys = require("../config/keys")
 
 class Mailer extends helper.Mail {
-  constructor({ subject, recipients }, content) {
+  constructor({ email }, content) {
     super() // Invokes constructor on helper.Mail
 
     this.sgApi = sendgrid(keys.sendGridKey)
-    this.from_email = new helper.Email("no-reply@emaily.com")
-    this.subject = subject
+    this.from_email = new helper.Email("no-reply@ribbit.ai")
+    this.subject = "Someone commented on yout blog!"
     this.body = new helper.Content("text/html", content)
-    this.recipients = this.formatAddresses(recipients)
+    this.recipient = this.formatAddresses(email)
 
     this.addContent(this.body)
     this.addClickTracking()
     this.addRecipients()
   }
 
-  formatAddresses(recipients) {
+  formatAddresses(email) {
     // sendgrid needs us to wrap recipient email addresses
     // in their helper.Email class
-    return recipients.map(({ email }) => {
-      return new helper.Email(email)
-    })
+    // return recipients.map(({ email }) => {
+    return new helper.Email(email)
+    // })
   }
-  
+
   addClickTracking() {
     const trackingSettings = new helper.TrackingSettings()
     const clickTracking = new helper.ClickTracking(true, true)
@@ -37,9 +37,9 @@ class Mailer extends helper.Mail {
     // Elements of formatted recipients array added to
     // personalize object, object then added to our Mailer instance
     const personalize = new helper.Personalization()
-    this.recipients.forEach(recipient => {
-      personalize.addTo(recipient)
-    })
+    // this.recipients.forEach(recipient => {
+    personalize.addTo(this.recipient)
+  //  })
     this.addPersonalization(personalize)
   }
 

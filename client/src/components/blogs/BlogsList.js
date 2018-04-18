@@ -8,6 +8,7 @@ import _ from "lodash"
 /*
 Simply fetches our current list of blogs by user from DB
 */
+
 class BlogsList extends Component {
   componentDidMount() {
     this.props.fetchBlogs()
