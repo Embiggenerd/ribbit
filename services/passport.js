@@ -80,14 +80,14 @@ passport.use(
     // Notice, we use mongoose model's findOne method, on the profile object
     // google returns about user, to return user from our database
     async (accessToken, refreshToken, profile, done) => {
-      console.log(profile.emails[0].value, profile.displayName)
+      console.log("googleProfile:",profile.emails[0].value, profile.displayName, profile.id)
       const existingUser = await User.findOne({ googleID: profile.id })
 
       if (existingUser) {
         return done(null, existingUser)
       }
       const user = await new User({
-        googleId: profile.id,
+        googleID: profile.id,
         email: profile.emails[0].value,
         displayName: profile.displayName
       }).save()

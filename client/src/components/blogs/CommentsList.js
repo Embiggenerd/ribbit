@@ -11,7 +11,7 @@ const CommentsList = (props) => {
     }
   }
   const renderList = () => {
-    console.log("globalState: ",store.getState())
+    // console.log("globalState: ",store.getState())
     switch(props.auth) {
       case null:
         return <div>Checking credentials....</div>
@@ -24,6 +24,7 @@ const CommentsList = (props) => {
               >
               <div className="card-content">
                 <p className="card-title">{comment.text}</p>
+                <p className="left">By: <Link to={`/users/${comment._user}`}>{comment._userDisplayName}</Link></p>
                 <p className="right">
                   Posted on: {new Date(comment.datePosted).toLocaleDateString()}
                 </p>

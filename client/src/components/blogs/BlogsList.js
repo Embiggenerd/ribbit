@@ -13,13 +13,15 @@ class BlogsList extends Component {
   componentDidMount() {
     this.props.fetchBlogs()
   }
-  deleteButton(blogUser, blogId){
+  deleteButton(blogUser, blogId) {
     if (this.props.auth._id === blogUser)
-    return <button onClick={()=>this.props.deleteBlog(blogId)}>Delete</button>
+      return (
+        <button onClick={() => this.props.deleteBlog(blogId)}>Delete</button>
+      )
   }
 
   renderBlogs() {
-    switch(this.props.auth){
+    switch (this.props.auth) {
       case null:
         return <div>Checking credentials...</div>
       default:
@@ -34,21 +36,24 @@ class BlogsList extends Component {
                 <span className="card-title">{blog.title}</span>
               </Link>
               <p>{blog.body}</p>
+
+                <p className="left">By: <Link to={`/users/${blog._user}`}>{blog._userDisplayName}</Link></p>
+
               <p className="right">
                 Sent on: {new Date(blog.dateSent).toLocaleDateString()}
               </p>
             </div>
             <div className="card-action">
               <a>Ribs: {blog.neg}</a>
-              <Link to={{pathname: `/blogs/${blog._id}`}}>Leave A Comment</Link>
+              <Link to={{ pathname: `/blogs/${blog._id}` }}>
+                Leave A Comment
+              </Link>
               {this.deleteButton(blog._user, blog._id)}
             </div>
           </div>
-        )
-      )
+        ))
     }
     // console.log("state after fetchBlogs: ", store.getState())
-
   }
   render() {
     return <div>{this.renderBlogs()}</div>

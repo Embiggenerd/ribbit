@@ -16,6 +16,7 @@ const blogSchema = new Schema({
   pos: { type: Number, default: 0 },
   neg: { type: Number, default: 0 },
   _user: { type: Schema.ObjectId, ref: 'users'},
+  _userDisplayName: { type: String, required: true},
   dateSent: Date,
   lastResponded: Date
 })

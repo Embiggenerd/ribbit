@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 const { Schema } = mongoose
 
 const userSchema = new Schema({
-  googleID: String,
+  googleID: {type: String, required: true},
   credits: {type: Number, default: 0},
   email: {type: String, required: true},
   displayName: {type:String, required: true}

@@ -6,7 +6,7 @@ import Landing from './Landing'
 import Dashboard from './dashboard'
 import BlogNew from './blogs/BlogNew'
 import BlogDetailContainer from './blogs/BlogDetailContainer'
-
+import UserContainer from './users/UserContainer'
 import Header from './Header'
 import SurveyNew from './surveys/SurveyNew'
 
@@ -26,6 +26,7 @@ class App extends Component{
             <Route path="/surveys/new" component={SurveyNew} />
             <Route exact path="/" component={Landing} />
             <Route exact path="/blogs" component={Dashboard} />
+            <Route exact path="/users/:_id" component={UserContainer} />
             <Switch>
               <Route exact path="/blogs/new" component={BlogNew} />
               <Route

@@ -7,19 +7,29 @@ const requireCredits = require("../middlewares/requireCredits")
 const Mailer = require("../services/Mailer")
 const Blogs = require("../models/Blog")
 const Comment = require("../models/Comment")
-const CommentMailer = require('../services/CommentMailer')
-const User = require('../models/User')
+const CommentMailer = require("../services/CommentMailer")
+const User = require("../models/User")
 const commentTemplate = require("../services/emailTemplates/commentTemplate")
-
 
 module.exports = app => {
   app.get("/api/blogs", requireLogin, async (req, res) => {
     const blogs = await Blogs.find({ _user: req.user.id }).select({
       comments: false
     })
-  //  console.log("Found blogs: ", blogs)
+    //  console.log("Found blogs: ", blogs)
     res.send(blogs)
   })
+
+  app.get("/api/blogs/:_user", requireLogin, async (req, res) => {
+    const { _user } = req.params
+    try {
+      const blogs = await Blogs.find({ _user })
+      res.send(blogs)
+    } catch (error) {
+      console.log(error)
+    }
+  })
+  //  console.log("Found blogs: ", blogs)
 
   app.post("/api/blogs", requireLogin, async (req, res) => {
     // Properties on req.body sent from redux form.
@@ -29,8 +39,11 @@ module.exports = app => {
       title,
       subject,
       body,
-      mentions: mentions.split(",").map(mention => ({ mention: mention.trim() })),
+      mentions: mentions
+        .split(",")
+        .map(mention => ({ mention: mention.trim() })),
       _user: req.user.id,
+      _userDisplayName: req.user.displayName,
       dateSent: Date.now()
     })
     //console.log("survey model instance created in api/blogs route: ", Blogs)
@@ -52,26 +65,28 @@ module.exports = app => {
   // app.get("/api/blogs/list", requireLogin, async (req, res) => {
   //   res.send({text:"hithere"})
   // })
-  app.get('/api/blog/:blogid/detail', requireLogin, async (req, res) => {
+  app.get("/api/blog/:blogid/detail", requireLogin, async (req, res) => {
     const { blogid } = req.params
 
     const blog = await Blogs.findById(blogid, (error, success) => {
-      if(error){
+      if (error) {
         console.log(error)
       } else {
         res.send(success)
-     }
+      }
     })
     //console.log('blog detail req.params : ', req.params)
 
     //const blog = Blogs.findOne(_id: )
   })
 
-  app.post('/api/comments/submit', requireLogin, async (req, res) => {
+  app.post("/api/comments/submit", requireLogin, async (req, res) => {
     const { text, blogId } = req.body
+    const { displayName, id } = req.user
     let comment = new Comment({
       text,
-      _user: req.user.id,
+      _user: id,
+      _userDisplayName: displayName,
       _blog: blogId,
       datePosted: Date.now()
     })
@@ -83,7 +98,10 @@ module.exports = app => {
           if (error) {
             console.log(error)
           } else {
-            const mailer = new CommentMailer(success, commentTemplate(comment, success))
+            const mailer = new CommentMailer(
+              success,
+              commentTemplate(comment, success)
+            )
             try {
               comment = await comment.save()
               await mailer.send()
@@ -92,10 +110,8 @@ module.exports = app => {
               res.status(422).send(error)
             }
           }
-
         })
       }
-
     })
     // try {
     //   await mailer.send()
@@ -108,9 +124,9 @@ module.exports = app => {
     // }
   })
 
-  app.get('/api/blog/:blogId/comments', requireLogin, async (req, res) => {
+  app.get("/api/blog/:blogId/comments", requireLogin, async (req, res) => {
     const { blogId } = req.params
-    const comments = await Comment.find({ _blog:blogId }, (error, success) => {
+    const comments = await Comment.find({ _blog: blogId }, (error, success) => {
       if (error) {
         handleError(error)
       } else {
@@ -131,41 +147,60 @@ module.exports = app => {
     //   res.status(422).send(err)
     // }
   })
-
-app.post('/api/comments/:commentId/delete', requireLogin, async (req, res) => {
-  Comment.findByIdAndRemove(req.params.commentId, (error, success) => {
-    if(error){
+  app.get("/api/users/:_user/comments", async (req, res) => {
+    const { _user } = req.params
+    console.log("fetchUserComments router: ", _user)
+    try {
+      const comments = await Comment.find({ _user })
+      res.send(comments)
+    } catch (error) {
       console.log(error)
-    } else {
-      res.send(success)
     }
   })
-})
-app.post('/api/blogs/:blogId/delete', requireLogin, async (req, res) => {
-  // const removedBlog = await Blogs.findByIdAndRemove(req.params.blogId, (error, success) => {
-  //   if(error) {
-  //     console.log(error)
-  //   } else {
-  //     res.send(success)
-  //     // Comment.remove({_user: }(error, success) => {
-  //     //   if(error) {
-  //     //     console.log(error)
-  //     //   } else res.send()
-  //     // })
-  //   }
-  // })
-  //console.log("delete blogs router invoked, blogId = ", req.params.blogId)
-   const removedBlog = Blogs.findByIdAndRemove(req.params.blogId, (error, success) => {
-    if(error) {
-      console.log(error)
-    } else {
-      res.send(success)
-      console.log("the id of the removed blog: ",success._id)
-      Comment.remove({_blog:success.id}, (error, success) => {
-        if(error){console.log(error)} else {console.log("removed blog's comments removed: ", success)}
+  app.post(
+    "/api/comments/:commentId/delete",
+    requireLogin,
+    async (req, res) => {
+      Comment.findByIdAndRemove(req.params.commentId, (error, success) => {
+        if (error) {
+          console.log(error)
+        } else {
+          res.send(success)
+        }
       })
     }
-
+  )
+  app.post("/api/blogs/:blogId/delete", requireLogin, async (req, res) => {
+    // const removedBlog = await Blogs.findByIdAndRemove(req.params.blogId, (error, success) => {
+    //   if(error) {
+    //     console.log(error)
+    //   } else {
+    //     res.send(success)
+    //     // Comment.remove({_user: }(error, success) => {
+    //     //   if(error) {
+    //     //     console.log(error)
+    //     //   } else res.send()
+    //     // })
+    //   }
+    // })
+    //console.log("delete blogs router invoked, blogId = ", req.params.blogId)
+    const removedBlog = Blogs.findByIdAndRemove(
+      req.params.blogId,
+      (error, success) => {
+        if (error) {
+          console.log(error)
+        } else {
+          res.send(success)
+          console.log("the id of the removed blog: ", success._id)
+          Comment.remove({ _blog: success.id }, (error, success) => {
+            if (error) {
+              console.log(error)
+            } else {
+              console.log("removed blog's comments removed: ", success)
+            }
+          })
+        }
+      }
+    )
   })
-})
 }

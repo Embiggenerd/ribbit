@@ -20,18 +20,19 @@ class BlogDetailContainer extends Component {
   jumpToHash = () => {
     const hash = this.props.history.location.hash;
     if (hash) {
-      scrollToElement(hash, { offset: -120 });
+      scrollToElement(hash, { offset: -30});
     }
   }
   renderDetail() {
 
-    const { title, subject, body, dateSent, neg, } = this.props.blogDetail
+    const { title, subject, body, dateSent, neg, _userDisplayName, _user } = this.props.blogDetail
     return (
       <div>
         <div className="card blue-grey darken-1 yellow-text">
           <div className="card-content">
             <span className="card-title">{title}</span>
             <p>{body}</p>
+            <p className="left">By: <Link to={`/users/${_user}`}>{_userDisplayName}</Link></p>
             <p className="right">
               Posted on: {new Date(dateSent).toLocaleDateString()}
             </p>

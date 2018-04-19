@@ -9,7 +9,7 @@ module.exports = (comment, user) => {
           <p>The comment in question::</p>
           <p>${comment.text}</p>
           <div>
-            <a href="${keys.redirectDomain}/api/users/${comment._user}/yes">${user.displayName}'s user page.</a>
+            <a href="${keys.redirectDomain}/users/${comment._user}">${user.displayName}'s user page.</a>
           </div>
           <div>
             <a href="${keys.redirectDomain}/blogs/${comment._blog}#p${comment.id}">The comment in question.</a>
