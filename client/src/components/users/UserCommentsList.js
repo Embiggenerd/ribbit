@@ -12,7 +12,7 @@ const userCommentsList = ({ comments }) => {
 
   return (
     <ul className="collection with-header">
-      <li className="header">Comments:</li>
+      <li className="header"><h2>Comments:</h2></li>
       {renderComments()}
     </ul>
   )
