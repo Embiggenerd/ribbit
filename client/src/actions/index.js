@@ -73,10 +73,10 @@ export const fetchComments = (blogId) => async dispatch => {
   // console.log("fetchComment's response: ", res.data)
   dispatch({ type: FETCH_COMMENTS, payload: res.data })
 }
-export const fetchUserComments = (_user) => async dispatch => {
-  console.log("ftchUseComments invoked: ", _user)
+export const fetchUserComments = (userId) => async dispatch => {
+  // console.log("ftchUseComments invoked: ", _user)
 
-  const res = await axios.get(`/api/users/${_user}/comments`)
+  const res = await axios.get(`/api/users/${userId}/comments`)
   dispatch({ type: FETCH_COMMENTS, payload: res.data })
 }
 
@@ -90,4 +90,9 @@ export const deleteComment = (commentId) => async dispatch => {
   const res = await axios.post(`/api/comments/${commentId}/delete`)
 
   dispatch({ type: DELETE_COMMENT, shouldConfirm: true, payload: res.data })
+}
+
+export const fetchUserFollowers = (userId) => async dispatch => {
+  const res = await axios.get(`/api/users/${userId}/followers`)
+  dispatch({ type: FETCH_FOLLOWERS, payload: res.data })
 }

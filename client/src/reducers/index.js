@@ -22,7 +22,8 @@ export default combineReducers({
   surveys: surveysReducer,
   blogs: blogsReducer,
   blogDetail: blogDetailReducer,
-  commentsList: commentsReducer
+  commentsList: commentsReducer,
+  user: userReducer,
 })
 // export default combineReducers({
 //   auth: authReducer,
