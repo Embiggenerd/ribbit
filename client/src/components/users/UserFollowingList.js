@@ -11,7 +11,7 @@ const UserFollowingList = ({ following }) => {
   }
   return (
     <ul>
-      renderList()
+      {renderList()}
     </ul>
   )
 }

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const followerSchema = require("./Follower")
+const followingSchema = require("./Following")
 const { Schema } = mongoose
 
 const userSchema = new Schema({
@@ -8,7 +9,7 @@ const userSchema = new Schema({
   email: {type: String, required: true},
   displayName: {type:String, required: true},
   followers: [followerSchema],
-  following: [{type: Schema.ObjectId, ref: "users"}]
+  following: [followingSchema]
 })
 
 

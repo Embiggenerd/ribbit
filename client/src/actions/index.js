@@ -7,7 +7,10 @@ import {
   FETCH_COMMENTS,
   SUBMIT_COMMENT,
   DELETE_COMMENT,
-  DELETE_BLOG
+  DELETE_BLOG,
+  FETCH_FOLLOWING,
+  FETCH_FOLLOWERS,
+  TO_FOLLOW
 } from "./types"
 
 export const fetchUser = () => async dispatch => {
@@ -95,4 +98,14 @@ export const deleteComment = (commentId) => async dispatch => {
 export const fetchUserFollowers = (userId) => async dispatch => {
   const res = await axios.get(`/api/users/${userId}/followers`)
   dispatch({ type: FETCH_FOLLOWERS, payload: res.data })
+}
+
+export const fetchUserFollowing = (userId) => async dispatch => {
+  const res = await axios.get(`/api/users/${userId}/following`)
+  dispatch({ type: FETCH_FOLLOWING, payload: res.data })
+}
+
+export const tofollow = userId => async dispatch => {
+  const res = await axios.post('/api/users/${userId}/followers')
+  dispatch({ type: TO_FOLLOW, payload: res.data })
 }

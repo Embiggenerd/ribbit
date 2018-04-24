@@ -1,9 +1,15 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import { fetchUserBlogs, fetchUserComments } from "../../actions"
+import {
+  fetchUserBlogs,
+  fetchUserComments,
+  fetchUserFollowers,
+  fetchUserFollowing
+} from "../../actions"
 import UserBlogsList from "./UserBlogsList"
 import UserCommentsList from "./UserCommentsList"
-import UserFollowersList from "./User/UserFollowersList"
+import UserFollowersList from "./UserFollowersList"
+import UserFollowingList from "./UserFollowingList"
 
 // Displays a user's posts, comments, total reading hours, rank
 class UserContainer extends Component {
@@ -17,7 +23,8 @@ class UserContainer extends Component {
     console.log("UserContainer's props: ", this.props)
     return (
       <div>
-        <UserFollowersList followers={this.prop.follow}>
+        <UserFollowersList followers={this.props.followers} />
+        <UserFollowingList following={this.props.following} />
         <UserBlogsList blogs={this.props.blogs} />
         <UserCommentsList comments={this.props.commentsList} />
       </div>
@@ -29,7 +36,13 @@ const mapStateToProps = ({ blogs, commentsList, user }) => {
   return {
     blogs,
     commentsList,
-    followers: user.followers
+    followers: user.followers,
+    following: user.following
   }
 }
-export default connect(mapStateToProps, {fetchUserBlogs, fetchUserComments})(UserContainer)
+export default connect(mapStateToProps, {
+  fetchUserBlogs,
+  fetchUserComments,
+  fetchUserFollowers,
+  fetchUserFollowing
+})(UserContainer)

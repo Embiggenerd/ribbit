@@ -11,7 +11,7 @@ const UserFollowersList = ({ followers }) => {
   }
   return (
     <ul>
-      renderList()
+      {renderList()}
     </ul>
   )
 }
