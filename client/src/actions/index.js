@@ -45,9 +45,9 @@ export const submitBlog = (values, history) => async dispatch => {
 }
 
 export const fetchBlogDetail = blogId => async dispatch => {
-//  console.log("fetchBlogDetail action was invoked with ", blogId)
+  //  console.log("fetchBlogDetail action was invoked with ", blogId)
   const getUrl = `/api/blog/${blogId}/detail`
-  console.log("fetchBlogDetail action invoked: ",getUrl)
+  console.log("fetchBlogDetail action invoked: ", getUrl)
   const res = await axios.get(getUrl)
 
   dispatch({ type: FETCH_BLOG_DETAIL, payload: res.data })
@@ -59,53 +59,63 @@ export const fetchBlogs = () => async dispatch => {
   dispatch({ type: FETCH_BLOGS, payload: res.data })
 }
 
-export const fetchUserBlogs = (_user) => async dispatch => {
+export const fetchUserBlogs = _user => async dispatch => {
   const res = await axios.get(`/api/blogs/${_user}`)
 
   dispatch({ type: FETCH_BLOGS, payload: res.data })
 }
 
 export const submitComment = (text, blogId) => async dispatch => {
-  console.log("submitComment's arguments ", text, blogId )
-  const res = await axios.post("/api/comments/submit", {text, blogId})
-   dispatch({ type: SUBMIT_COMMENT, payload:res.data })
+  console.log("submitComment's arguments ", text, blogId)
+  const res = await axios.post("/api/comments/submit", { text, blogId })
+  dispatch({ type: SUBMIT_COMMENT, payload: res.data })
 }
 
-export const fetchComments = (blogId) => async dispatch => {
+export const fetchComments = blogId => async dispatch => {
   const res = await axios.get(`/api/blog/${blogId}/comments`)
   // console.log("fetchComment's response: ", res.data)
   dispatch({ type: FETCH_COMMENTS, payload: res.data })
 }
-export const fetchUserComments = (userId) => async dispatch => {
+export const fetchUserComments = userId => async dispatch => {
   // console.log("ftchUseComments invoked: ", _user)
 
   const res = await axios.get(`/api/users/${userId}/comments`)
   dispatch({ type: FETCH_COMMENTS, payload: res.data })
 }
 
-export const deleteBlog = (blogId) => async dispatch => {
+export const deleteBlog = blogId => async dispatch => {
   const res = await axios.post(`/api/blogs/${blogId}/delete`)
   console.log("deleteBlog invoked, deleted: ", res.data._id, blogId)
-  dispatch({ type: DELETE_BLOG, payload: res.data})
+  dispatch({ type: DELETE_BLOG, payload: res.data })
 }
 
-export const deleteComment = (commentId) => async dispatch => {
+export const deleteComment = commentId => async dispatch => {
   const res = await axios.post(`/api/comments/${commentId}/delete`)
 
   dispatch({ type: DELETE_COMMENT, shouldConfirm: true, payload: res.data })
 }
 
-export const fetchUserFollowers = (userId) => async dispatch => {
+export const fetchUserFollowers = userId => async dispatch => {
+  console.log("fetchUserFOllowers predispatch, argument: ", userId)
   const res = await axios.get(`/api/users/${userId}/followers`)
+  console.log("fetchUserFollower's res.data: ", res.data)
   dispatch({ type: FETCH_FOLLOWERS, payload: res.data })
 }
 
-export const fetchUserFollowing = (userId) => async dispatch => {
+export const fetchUserFollowing = userId => async dispatch => {
   const res = await axios.get(`/api/users/${userId}/following`)
+  console.log("fetchUserFollowing's res.data: ", res.data)
   dispatch({ type: FETCH_FOLLOWING, payload: res.data })
 }
 
-export const tofollow = userId => async dispatch => {
-  const res = await axios.post('/api/users/${userId}/followers')
-  dispatch({ type: TO_FOLLOW, payload: res.data })
+export const toFollow = userId => async dispatch => {
+  const res = await axios.post(`/api/users/${userId}/followers`)
+  console.log("followUserButton's payload to reducer: ", res.data)
+  dispatch({
+    type: TO_FOLLOW,
+    follower: res.data.follower,
+    follow: res.data.follow
+  })
 }
+
+export const gotFollowed = () => async dispatch => {}

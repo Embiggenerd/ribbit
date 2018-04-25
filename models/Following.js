@@ -6,4 +6,5 @@ const followingSchema = new Schema({
   _user: { type: Schema.ObjectId, required: true }
 })
 
+mongoose.model('following', followingSchema)
 module.exports = followingSchema

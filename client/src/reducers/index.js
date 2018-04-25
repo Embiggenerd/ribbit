@@ -7,6 +7,8 @@ import blogDetailReducer from './blogDetailReducer'
 import { FETCH_COMMENTS, SUBMIT_COMMENT } from "../actions/types"
 import commentsReducer from "./commentsReducer"
 import userReducer from "./userReducer"
+import followingReducer from './followingReducer'
+import followersReducer from './followersReducer'
 
 export default combineReducers({
   auth: authReducer,
@@ -24,7 +26,7 @@ export default combineReducers({
   blogs: blogsReducer,
   blogDetail: blogDetailReducer,
   commentsList: commentsReducer,
-  user: userReducer,
+  user: userReducer
 })
 // export default combineReducers({
 //   auth: authReducer,

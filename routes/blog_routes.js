@@ -157,6 +157,7 @@ module.exports = app => {
       console.log(error)
     }
   })
+
   app.post(
     "/api/comments/:commentId/delete",
     requireLogin,
