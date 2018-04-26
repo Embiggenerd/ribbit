@@ -37,6 +37,7 @@ require("./routes/billing_routes")(app)
 require("./routes/survey_routes")(app)
 require("./routes/blog_routes")(app)
 require("./routes/user_routes")(app)
+require("./routes/own_routes")(app)
 
 if (process.env.NODE_ENV === "production") {
   // Express will serve up assets from client

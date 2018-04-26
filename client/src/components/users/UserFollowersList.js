@@ -5,7 +5,9 @@ const UserFollowersList = ({ followers }) => {
   const renderList = () =>
     followers.map(follower => (
       <li key={follower._id} className="collection-item">
-        <Link to={`/users/${follower._user}`}>{follower.displayName}</Link>
+        <Link to={`/users/${follower._user}`}>
+          {follower.displayName}
+        </Link>
       </li>
     ))
   return (

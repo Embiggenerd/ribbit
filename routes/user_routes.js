@@ -44,6 +44,7 @@ module.exports = app => {
     })
   })
 
+  // error/result pattern for queries, and mutative.
   app.post("/api/users/:_id/followers", (req, res) => {
     User.findOne({ _id: req.params._id }, (error, success) => {
       if (error) {
@@ -64,5 +65,35 @@ module.exports = app => {
         res.send({follower: newFollow, follow: newFollow})
       }
     })
+  })
+
+  // async/await pattern, using non-mutative methods
+  app.post("/api/users/:_id/unfollow", async (req, res) => {
+    try {
+      // Find user we want to unfollow, change his followers
+      const unfollowed = await User.findOne({ _id: req.params._id})
+      const newFollowers = unfollowed.followers.filter(follower => {
+        return follower._user !== req.user.id
+      })
+      unfollowed.followers = newFollowers
+      unfollowed.save()
+      const unfollower = req.user
+      const newFollowing = unfollower.following.filter(follow => {
+        return follow._user !== unfollowed._id
+      })
+      unfollower.following = newFollowing
+      unfollower.save()
+      res.send({
+        unfollower: unfollower.id,
+        unfollowed: unfollowed._id
+      })
+    } catch(error){
+      if(error){
+        console.log(error)
+      }
+    }
+
+
+
   })
 }

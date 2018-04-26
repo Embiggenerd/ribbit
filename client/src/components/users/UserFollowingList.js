@@ -2,7 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 
 const UserFollowingList = ({ following }) => {
-  const renderList = () => (
+  const renderList = () =>
     following.map(follow => (
       <li key={follow._id} className="collection-item">
         <Link to={`/users/${follow._user}`}>
@@ -10,7 +10,6 @@ const UserFollowingList = ({ following }) => {
         </Link>
       </li>
     ))
-  )
   return (
     <ul className="collection with-header">
       <li className="collection-header">

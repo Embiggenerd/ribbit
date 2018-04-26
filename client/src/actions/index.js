@@ -10,7 +10,9 @@ import {
   DELETE_BLOG,
   FETCH_FOLLOWING,
   FETCH_FOLLOWERS,
-  TO_FOLLOW
+  TO_FOLLOW,
+  TO_UNFOLLOW,
+  OWN_FOLLOW
 } from "./types"
 
 export const fetchUser = () => async dispatch => {
@@ -114,8 +116,26 @@ export const toFollow = userId => async dispatch => {
   dispatch({
     type: TO_FOLLOW,
     follower: res.data.follower,
-    follow: res.data.follow
+    followed: res.data.follow
   })
 }
 
-export const gotFollowed = () => async dispatch => {}
+export const toUnfollow = userId => async dispatch => {
+  const res = await axios.post(`/api/users/${userId}/unfollow`)
+  dispatch({
+    type: TO_UNFOLLOW,
+    unfollower: res.data.unfollower,
+    unfollowed: res.data.unfollowed
+  })
+}
+
+export const fetchOwnFollow = () => async dispatch => {
+  console.log("fetchOwnFollow invoked")
+  const res = await axios.get('/api/own/follow')
+  console.log("fetchOwnFollow get request returned with res.data:", res.data)
+  dispatch({
+    type: OWN_FOLLOW,
+    ownFollowers: res.data.followers,
+    ownFollowing: res.data.following
+  })
+}

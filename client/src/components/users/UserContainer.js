@@ -5,7 +5,8 @@ import {
   fetchUserComments,
   fetchUserFollowers,
   fetchUserFollowing,
-  toFollow
+  toFollow,
+  toUnfollow
 } from "../../actions"
 import UserBlogsList from "./UserBlogsList"
 import UserCommentsList from "./UserCommentsList"
@@ -27,7 +28,9 @@ class UserContainer extends Component {
       <div>
         <FollowUserButton
           _id={this.props.match.params._id}
-          onClickHandler={this.props.toFollow}
+          followers={this.props.followers}
+          onClickFollowHandler={this.props.toFollow}
+          onClickUnfollowHandler={this.props.unfollow}
         />
         <UserFollowersList followers={this.props.followers} />
         <UserFollowingList following={this.props.following} />
@@ -51,5 +54,6 @@ export default connect(mapStateToProps, {
   fetchUserComments,
   fetchUserFollowers,
   fetchUserFollowing,
-  toFollow
+  toFollow,
+  toUnfollow
 })(UserContainer)

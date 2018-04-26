@@ -1,4 +1,4 @@
-import { FETCH_FOLLOWERS, FETCH_FOLLOWING } from "../actions/types"
+// import { FETCH_FOLLOWERS, FETCH_FOLLOWING } from "../actions/types"
 import followersReducer from './followersReducer'
 import followingReducer from './followingReducer'
 
