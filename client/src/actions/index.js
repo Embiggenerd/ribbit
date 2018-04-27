@@ -130,12 +130,10 @@ export const toUnfollow = userId => async dispatch => {
 }
 
 export const fetchOwnFollow = () => async dispatch => {
-  console.log("fetchOwnFollow invoked")
   const res = await axios.get('/api/own/follow')
-  console.log("fetchOwnFollow get request returned with res.data:", res.data)
   dispatch({
     type: OWN_FOLLOW,
-    ownFollowers: res.data.followers,
-    ownFollowing: res.data.following
+    followers: res.data.followers,
+    following: res.data.following
   })
 }

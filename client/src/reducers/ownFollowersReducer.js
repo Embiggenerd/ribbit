@@ -1,4 +1,4 @@
-import { TO_FOLLOW, TO_UNFOLLOW, OWN_FOLLOW} from "../actions/types"
+import { OWN_FOLLOW } from "../actions/types"
 
 export default function(state=[], action) {
   switch(action.type){

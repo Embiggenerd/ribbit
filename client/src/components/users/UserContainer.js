@@ -23,30 +23,37 @@ class UserContainer extends Component {
     this.props.fetchUserFollowing(this.props.match.params._id)
   }
   render() {
-    console.log("UserContainer's props: ", this.props)
-    return (
-      <div>
-        <FollowUserButton
-          _id={this.props.match.params._id}
-          followers={this.props.followers}
-          onClickFollowHandler={this.props.toFollow}
-          onClickUnfollowHandler={this.props.unfollow}
-        />
-        <UserFollowersList followers={this.props.followers} />
-        <UserFollowingList following={this.props.following} />
-        <UserBlogsList blogs={this.props.blogs} />
-        <UserCommentsList comments={this.props.commentsList} />
-      </div>
-    )
+    //console.log("UserContainer's props: ", this.props)
+    switch (this.props.auth) {
+      case null:
+        return <div>Checking credentials:</div>
+      default:
+        return (
+          <div>
+            <FollowUserButton
+              auth={this.props.auth}
+              _user={this.props.match.params._id}
+              followers={this.props.followers}
+              onClickFollowHandler={this.props.toFollow}
+              onClickUnfollowHandler={this.props.toUnfollow}
+            />
+            <UserFollowersList followers={this.props.followers} />
+            <UserFollowingList following={this.props.following} />
+            <UserBlogsList blogs={this.props.blogs} />
+            <UserCommentsList comments={this.props.commentsList} />
+          </div>
+        )
+    }
   }
 }
 
-const mapStateToProps = ({ blogs, commentsList, user }) => {
+const mapStateToProps = ({ blogs, commentsList, user, auth }) => {
   return {
     blogs,
     commentsList,
     followers: user.followers,
-    following: user.following
+    following: user.following,
+    auth
   }
 }
 export default connect(mapStateToProps, {

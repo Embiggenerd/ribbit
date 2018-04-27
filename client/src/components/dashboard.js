@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import { Link } from "react-router-dom"
 import SurveysList from "./surveys/SurveysList"
 import BlogsList from "./blogs/BlogsList"
-import { fetchOwnFollow } from "../actions"
+import { fetchOwnFollow } from "../actions/index"
 import UserFollowingList from "./users/UserFollowingList"
 import UserFollowersList from "./users/UserFollowersList"
 /*
@@ -13,11 +13,11 @@ the add button that links to /surveys/new
 
 class Dashboard extends Component {
   componentDidMount() {
-    fetchOwnFollow()
+
+    this.props.fetchOwnFollow()
   }
 
   render() {
-    console.log(this.props)
     return (
       <div>
         <BlogsList />

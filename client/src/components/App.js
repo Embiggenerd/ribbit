@@ -22,10 +22,7 @@ class App extends Component{
           <div className="container">
             <Header/>
             <Route exact path="/" component={Landing} />
-            <Route exact path="/surveys" component={Dashboard} />
-            <Route path="/surveys/new" component={SurveyNew} />
-            <Route exact path="/" component={Landing} />
-            <Route exact path="/blogs" component={Dashboard} />
+            <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/users/:_id" component={UserContainer} />
             <Switch>
               <Route exact path="/blogs/new" component={BlogNew} />
