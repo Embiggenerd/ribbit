@@ -1,14 +1,40 @@
-import React from 'react'
+import React, { Component } from "react"
+import { connect } from "react-redux"
+// import { fetchOwnFollow } from "../actions"
+import Timeline from "./timeline/TimelineContainer.js"
 
-const Landing = () => {
-  return(
-    <div style={{ textAlign: "center"}}>
-      <h1>
-        Welcome To Emaily
-      </h1>
-      CollectFeedback
-    </div>
-  )
+class Landing extends Component {
+
+  render() {
+    switch (this.props.auth) {
+      case null:
+        return (
+          <div style={{ textAlign: "center" }}>
+            <h3>Checkin credentials...</h3>{" "}
+          </div>
+        )
+      case false:
+        return (
+          <div style={{ textAlign: "center" }}>
+            <h3>Welcome To Ribbit!</h3>
+            <ul>
+              <li>Ribbits have meaning!</li>
+              <li>Timeline order is based on reading hours minus ribbits.</li>
+              <li>You can&apost ribbit your way to the top</li>
+              <li>But you can ribbit down the competition!</li>
+            </ul>
+            <a href="/auth/google">Login with Google</a>
+          </div>
+        )
+      default:
+        return <Timeline />
+    }
+  }
 }
 
-export default Landing
+const mapStateToProps = ({ auth }) => ({
+  auth,
+  
+})
+
+export default connect(mapStateToProps)(Landing)

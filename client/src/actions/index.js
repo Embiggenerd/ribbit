@@ -12,7 +12,8 @@ import {
   FETCH_FOLLOWERS,
   TO_FOLLOW,
   TO_UNFOLLOW,
-  OWN_FOLLOW
+  OWN_FOLLOW,
+  OWN_TIMELINE
 } from "./types"
 
 export const fetchUser = () => async dispatch => {
@@ -135,5 +136,14 @@ export const fetchOwnFollow = () => async dispatch => {
     type: OWN_FOLLOW,
     followers: res.data.followers,
     following: res.data.following
+  })
+}
+
+export const fetchOwnTimeline = () => async dispatch => {
+  console.log("fetchOwnFollow action invoked")
+  const res = await axios.get('/api/own/timeline')
+  dispatch({
+    type: OWN_TIMELINE,
+    timeline: res.data
   })
 }
