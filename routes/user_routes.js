@@ -1,10 +1,11 @@
+const _ = require("lodash")
+const D = require("decimal")
 const User = require("../models/User")
 const Follower = require("../models/Follower")
 const Following = require("../models/Following")
 const mongoose = require("mongoose")
 const follower = mongoose.model("followers")
 const following = mongoose.model("following")
-
 
 module.exports = app => {
   app.get("/api/users/:_id/following", (req, res) => {
@@ -15,7 +16,7 @@ module.exports = app => {
         console.log(error)
       } else {
         res.send(success.following)
-        console.log("success.following: ",success.following)
+        console.log("success.following: ", success.following)
       }
     })
   })
@@ -38,8 +39,7 @@ module.exports = app => {
         console.log(error)
       } else {
         res.send(success.followers)
-        console.log("success.following: ",success.followers)
-
+        console.log("success.following: ", success.followers)
       }
     })
   })
@@ -62,7 +62,7 @@ module.exports = app => {
         })
         req.user.following.push(newFollow)
         req.user.save()
-        res.send({follower: newFollow, follow: newFollow})
+        res.send({ follower: newFollow, follow: newFollow })
       }
     })
   })
@@ -71,7 +71,7 @@ module.exports = app => {
   app.post("/api/users/:_id/unfollow", async (req, res) => {
     try {
       // Find user we want to unfollow, change his followers
-      const unfollowed = await User.findOne({ _id: req.params._id})
+      const unfollowed = await User.findOne({ _id: req.params._id })
       const newFollowers = unfollowed.followers.filter(follower => {
         return follower._user !== req.user.id
       })
@@ -87,13 +87,47 @@ module.exports = app => {
         unfollower: unfollower.id,
         unfollowed: unfollowed._id
       })
-    } catch(error){
-      if(error){
-        console.log(error)
-      }
+    } catch (error) {
+      console.log(error)
     }
-
-
-
+  })
+  app.post("/api/users/:_id/hours", async (req, res) => {
+    let { body: { hours }, params: { _id } } = req
+    //
+    // User.findOne({ _id }, async (error, success) => {
+    //   if (error) {
+    //     console.log(error)
+    //   } else {
+    //     success.readingHours += hours
+    //     const user = await success.save()
+    //     res.send(user)
+    //   }
+    // })
+    try {
+      let user = await User.findOne({ _id })
+      //.select("readingHours")
+      const updatedHours = user.readingHours + hours
+      const updatedCounter = user.hoursCounter + hours
+      user.readingHours = _.round(updatedHours, 4)
+      user.hoursCounter = _.round(updatedCounter, 4)
+      if (user.hoursCounter >= 1) {
+        user.credits += 1
+        user.hoursCounter = _.round(user.readingHours % 1, 4)
+      }
+      user = await user.save()
+      res.send(user)
+    } catch (error) {
+      console.log(error)
+    }
+    //     User.findOne({_id}, (error, success) => {
+    //       const updatedHours = success.readingHours +
+    //       const updatedCounter = success.hoursCounter
+    //       if (success.hoursCounter > = 1) {
+    //         success.credits += 1
+    //         success.hoursCounter =
+    //       }
+    //     }).forEach(function(error, success){
+    //       var updated = Math.round(hours);
+    // Players.update({"_id":doc._id},{$set:{"money":updated}}); })
   })
 }

@@ -8,6 +8,8 @@ const userSchema = new Schema({
   credits: {type: Number, default: 0},
   email: {type: String, required: true},
   displayName: {type:String, required: true},
+  readingHours: {type: Number, default: 0},
+  hoursCounter: {type: Number, default: 0},
   followers: [followerSchema],
   following: [followingSchema]
 })

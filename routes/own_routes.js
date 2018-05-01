@@ -27,7 +27,7 @@ module.exports = app => {
         }
       }))
       const flattenedFollowBlogs = followBlogs.reduce((a, b) => a.concat(b))
-      console.log("flattenedFollowBlog: ",flattenedFollowBlogs)
+      // console.log("flattenedFollowBlog: ",flattenedFollowBlogs)
     } catch(error) {
       console.log(error)
     }
