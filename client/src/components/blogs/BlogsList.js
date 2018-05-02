@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import { fetchBlogs, deleteBlog } from "../../actions"
+import { fetchBlogs, deleteBlog, rib } from "../../actions"
 import { Link } from "react-router-dom"
 import store from "../../index"
 import _ from "lodash"
@@ -13,6 +13,11 @@ class BlogsList extends Component {
   componentDidMount() {
     this.props.fetchBlogs()
   }
+  ribButton(blogUser, blogId) {
+    if (this.props.auth._id !== blogUser) {
+      return <button onClick={this.props.rib(blogId)}>RIBBIT</button>
+    }
+  }
   deleteButton(blogUser, blogId) {
     if (this.props.auth._id === blogUser)
       return (
@@ -21,6 +26,7 @@ class BlogsList extends Component {
   }
 
   renderBlogs() {
+    console.log(this.props.auth)
     switch (this.props.auth) {
       case null:
         return <div>Checking credentials...</div>
@@ -37,17 +43,21 @@ class BlogsList extends Component {
               </Link>
               <p>{blog.body}</p>
 
-                <p className="left">By: <Link to={`/users/${blog._user}`}>{blog._userDisplayName}</Link></p>
+              <p className="left">
+                By:{" "}
+                <Link to={`/users/${blog._user}`}>{blog._userDisplayName}</Link>
+              </p>
 
               <p className="right">
                 Sent on: {new Date(blog.dateSent).toLocaleDateString()}
               </p>
             </div>
             <div className="card-action">
-              <a>Ribs: {blog.neg}</a>
+              <a>Ribs: {blog.ribs}</a>
               <Link to={{ pathname: `/blogs/${blog._id}` }}>
                 Leave A Comment
               </Link>
+              {this.ribButton(blog._user, blog._id)}
               {this.deleteButton(blog._user, blog._id)}
             </div>
           </div>
@@ -56,6 +66,7 @@ class BlogsList extends Component {
     // console.log("state after fetchBlogs: ", store.getState())
   }
   render() {
+    console.log("BlogList's props: ", this.props)
     return <div>{this.renderBlogs()}</div>
   }
 }
@@ -65,4 +76,6 @@ const mapStateToProps = ({ blogs, auth }) => ({
   auth
 })
 
-export default connect(mapStateToProps, { fetchBlogs, deleteBlog })(BlogsList)
+export default connect(mapStateToProps, { fetchBlogs, deleteBlog, rib })(
+  BlogsList
+)

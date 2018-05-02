@@ -31,7 +31,6 @@ const CommentsList = (props) => {
               </div>
               <div className="card-action">
                 <a>Ribs: {comment.neg}</a>
-                <a> Ribbit: {Comment.neg}></a>
                 {deleteButton(comment._id)}
               </div>
             </div>

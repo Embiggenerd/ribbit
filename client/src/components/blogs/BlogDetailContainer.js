@@ -2,11 +2,18 @@ import { connect } from "react-redux"
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import { reduxForm, Field } from "redux-form"
-import { fetchBlogDetail, fetchComments, deleteComment } from "../../actions"
+import {
+  fetchBlogDetail,
+  fetchComments,
+  deleteComment,
+  deleteBlog,
+  rib
+} from "../../actions"
 import { updateReadingHours } from "../../actions/apiCalls"
 import CommentForm from "./CommentForm"
 import CommentsList from "./CommentsList"
 import scrollToElement from "scroll-to-element"
+import ribButton from "../buttons/ribButton"
 
 class BlogDetailContainer extends Component {
   constructor(props) {
@@ -20,6 +27,18 @@ class BlogDetailContainer extends Component {
       )
       updateReadingHours(timeDiff, this.props.blogDetail._user)
     }
+  }
+
+  ribButton(blogUser, blogId) {
+    if (this.props.auth._id !== blogUser)
+      return <button onClick={() => this.props.rib(blogId)}>RIBBIT</button>
+  }
+
+  deleteButton(blogUser, blogId) {
+    if (this.props.auth._id === blogUser)
+      return (
+        <button onClick={() => this.props.deleteBlog(blogId)}>Delete</button>
+      )
   }
   componentDidMount() {
     this.setState({
@@ -39,40 +58,52 @@ class BlogDetailContainer extends Component {
   }
   jumpToHash = () => {
     const hash = this.props.history.location.hash
-    if (hash) {
-      scrollToElement(hash, { offset: -30 })
-    }
+    if (hash) scrollToElement(hash, { offset: -30 })
   }
   renderDetail() {
-    const {
-      title,
-      subject,
-      body,
-      dateSent,
-      neg,
-      _userDisplayName,
-      _user
-    } = this.props.blogDetail
-    return (
-      <div>
-        <div className="card blue-grey darken-1 yellow-text">
-          <div className="card-content">
-            <span className="card-title">{title}</span>
-            <p>{body}</p>
-            <p className="left">
-              By: <Link to={`/users/${_user}`}>{_userDisplayName}</Link>
-            </p>
-            <p className="right">
-              Posted on: {new Date(dateSent).toLocaleDateString()}
-            </p>
+    switch (this.props.auth) {
+      case null:
+        return <div>Checking...</div>
+      default:
+        const {
+          title,
+          subject,
+          body,
+          dateSent,
+          ribs,
+          _userDisplayName,
+          _user,
+          _id
+        } = this.props.blogDetail
+        console.log("detail _user:", _user)
+        console.log("detail auth._id:", this.props.auth._id)
+        console.log(
+          "does _user triple equals auth._id?",
+          _user === this.props.auth._id
+        )
+        return (
+          <div>
+            <div className="card blue-grey darken-1 yellow-text">
+              <div className="card-content">
+                <span className="card-title">{title}</span>
+                <p>{body}</p>
+                <p className="left">
+                  By: <Link to={`/users/${_user}`}>{_userDisplayName}</Link>
+                </p>
+                <p className="right">
+                  Posted on: {new Date(dateSent).toLocaleDateString()}
+                </p>
+              </div>
+              <div className="card-action">
+                <a>Ribs: {ribs}</a>
+                <a className="right">Subjects: {subject}</a>
+                {this.ribButton(_user, _id)}
+                {this.deleteButton(_user, _id)}
+              </div>
+            </div>
           </div>
-          <div className="card-action">
-            <a>Ribs: {neg}</a>
-            <a className="right">Subjects: {subject}</a>
-          </div>
-        </div>
-      </div>
-    )
+        )
+    }
   }
 
   render() {
@@ -100,5 +131,7 @@ const mapStateToProps = ({ blogDetail, commentsList, auth }) => ({
 export default connect(mapStateToProps, {
   fetchBlogDetail,
   fetchComments,
-  deleteComment
+  deleteComment,
+  deleteBlog,
+  rib
 })(BlogDetailContainer)

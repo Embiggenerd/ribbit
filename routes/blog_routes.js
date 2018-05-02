@@ -124,9 +124,9 @@ module.exports = app => {
     // }
   })
 
-  app.get("/api/blog/:blogId/comments", requireLogin, async (req, res) => {
-    const { blogId } = req.params
-    const comments = await Comment.find({ _blog: blogId }, (error, success) => {
+  app.get("/api/blog/:_blog/comments", requireLogin, async (req, res) => {
+    const { _blog } = req.params
+    const comments = await Comment.find({ _blog }, (error, success) => {
       if (error) {
         handleError(error)
       } else {
@@ -203,5 +203,35 @@ module.exports = app => {
         }
       }
     )
+  })
+  // Query user from req info to get most recent credit data.
+// Take away a credit from user.
+// Query blog by id, add rib to blog, rib and blog id data
+// back to be dispatched.
+
+  app.post('/api/blogs/:_id/rib', requireLogin, requireCredits, async (req, res) => {
+    // try {
+    //   console.log("req.user: ",req.user)
+    // }catch(error){
+    //   console.log(error)
+    // }
+
+    try {
+      const user = await User.findById(req.user._id).select("credits")
+      user.credits -= 1
+      const { _id } = req.params
+      const blog = await Blogs.findById(_id).select("ribs")
+      blog.ribs += 1
+      const updatedUser = await user.save()
+      const updatedBlog = await blog.save()
+      res.send({
+        ribs: updatedBlog.ribs,
+        _id,
+        credits: updatedUser.credits
+      })
+    } catch(error) {
+      console.log(error)
+    }
+
   })
 }

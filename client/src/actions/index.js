@@ -13,7 +13,8 @@ import {
   TO_FOLLOW,
   TO_UNFOLLOW,
   OWN_FOLLOW,
-  OWN_TIMELINE
+  OWN_TIMELINE,
+  RIB
 } from "./types"
 
 export const fetchUser = () => async dispatch => {
@@ -42,7 +43,7 @@ export const fetchSurveys = () => async dispatch => {
 
 export const submitBlog = (values, history) => async dispatch => {
   const res = await axios.post("/api/blogs", values)
-  history.push("/blogs")
+  history.push("/dashboard")
   console.log("submitBlog's response: ", res.data)
   //dispatch({ type: , payload: res.data })
 }
@@ -131,7 +132,7 @@ export const toUnfollow = userId => async dispatch => {
 }
 
 export const fetchOwnFollow = () => async dispatch => {
-  const res = await axios.get('/api/own/follow')
+  const res = await axios.get("/api/own/follow")
   dispatch({
     type: OWN_FOLLOW,
     followers: res.data.followers,
@@ -141,9 +142,33 @@ export const fetchOwnFollow = () => async dispatch => {
 
 export const fetchOwnTimeline = () => async dispatch => {
   console.log("fetchOwnFollow action invoked")
-  const res = await axios.get('/api/own/timeline')
+  const res = await axios.get("/api/own/timeline")
   dispatch({
     type: OWN_TIMELINE,
     timeline: res.data
   })
 }
+
+export const rib = blogId => async dispatch => {
+  const res = await axios.post(`/api/blogs/${blogId}/rib`)
+  const { ribs, _id, credits } = res.data
+  dispatch({
+    type: RIB,
+    ribs,
+    _id,
+    credits
+  })
+}
+
+// export const putOver = userId => async dispatch => {
+//   console.log("putOver invoked")
+//   const res = await axios.post(`/api/blogs/${blogId}/rib`)
+//   console.log("pputOver api call returned: ", res.data)
+//   const { ribs, _id, credits } = res.data
+//   dispatch({
+//     type: RIB,
+//     ribs,
+//     _id,
+//     credits
+//   })
+// }
