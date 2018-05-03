@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 // import { fetchOwnFollow } from "../actions"
-import Timeline from "./timeline/TimelineContainer.js"
+import TimelineContainer from "./timeline/TimelineContainer.js"
 
 class Landing extends Component {
 
@@ -20,21 +20,21 @@ class Landing extends Component {
             <ul>
               <li>Ribbits have meaning!</li>
               <li>Timeline order is based on reading hours minus ribbits.</li>
-              <li>You can&apost ribbit your way to the top</li>
+              <li>You can&apos;t ribbit your way to the top</li>
               <li>But you can ribbit down the competition!</li>
             </ul>
             <a href="/auth/google">Login with Google</a>
           </div>
         )
       default:
-        return <Timeline />
+        return <TimelineContainer />
     }
   }
 }
 
 const mapStateToProps = ({ auth }) => ({
   auth,
-  
+
 })
 
 export default connect(mapStateToProps)(Landing)
