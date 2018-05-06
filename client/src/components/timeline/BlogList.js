@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React from "react"
 import { connect } from "react-redux"
 import { fetchBlogs, deleteBlog, rib } from "../../actions"
 import { Link } from "react-router-dom"
@@ -7,75 +7,67 @@ import _ from "lodash"
 
 /*
 Simply fetches our current list of blogs by user from DB
+required props: auth, blogs, deleteBlog, rib
 */
 
-class BlogsList extends Component {
-  componentDidMount() {
-    this.props.fetchBlogs()
-  }
-  ribButton(blogUser, blogId) {
-    if (this.props.auth._id !== blogUser) {
-      return <button onClick={this.props.rib(blogId)}>RIBBIT</button>
+const BlogsList = ({ deleteBlog, rib, authId, blogs }) => {
+  const ribButton = (blogUser, blogId) => {
+    if (authId !== blogUser) {
+      return <button className= "white btn-flat" onClick={() => rib(blogId)}>RIBBIT</button>
     }
   }
-  deleteButton(blogUser, blogId) {
-    if (this.props.auth._id === blogUser)
-      return (
-        <button onClick={() => this.props.deleteBlog(blogId)}>Delete</button>
-      )
+  const deleteButton = (blogUser, blogId) => {
+    if (authId === blogUser)
+      return <button className= "red btn-flat white-text" onClick={() => deleteBlog(blogId)}>Delete</button>
   }
 
-  renderBlogs() {
-    console.log(this.props.auth)
-    switch (this.props.auth) {
+  const renderBlogs = () => {
+    //console.log(this.props.auth)
+    switch (authId) {
       case null:
         return <div>Checking credentials...</div>
       default:
-        return _.map(this.props.blogs, blog => (
-          <div key={blog._id} className="card blue-grey darken-1 yellow-text">
-            <div className="card-content">
-              <Link
-                to={{
-                  pathname: `/blogs/${blog._id}`
-                }}
-              >
-                <span className="card-title">{blog.title}</span>
-              </Link>
-              <p>{blog.body}</p>
+        return _.map(
+          blogs,
+          ({ _id, title, body, _userDisplayName, dateSent, ribs, _user }) => (
+            <div key={_id} className="card blue-grey darken-1 yellow-text">
+              <div className="card-content">
+                <Link
+                  to={{
+                    pathname: `/blogs/${_id}`
+                  }}
+                >
+                  <span className="card-title">{title}</span>
+                </Link>
+                <p>{body}</p>
 
-              <p className="left">
-                By:{" "}
-                <Link to={`/users/${blog._user}`}>{blog._userDisplayName}</Link>
-              </p>
+                <p className="left">
+                  By: <Link to={`/users/${_user}`}>{_userDisplayName}</Link>
+                </p>
 
-              <p className="right">
-                Sent on: {new Date(blog.dateSent).toLocaleDateString()}
-              </p>
+                <p className="right">
+                  Sent on: {new Date(dateSent).toLocaleDateString()}
+                </p>
+              </div>
+              <div className="card-action">
+                <a>Ribs: {ribs}</a>
+                <Link to={{ pathname: `/blogs/${_id}` }}>Leave A Comment</Link>
+                {ribButton(_user, _id)}
+                {deleteButton(_user, _id)}
+              </div>
             </div>
-            <div className="card-action">
-              <a>Ribs: {blog.ribs}</a>
-              <Link to={{ pathname: `/blogs/${blog._id}` }}>
-                Leave A Comment
-              </Link>
-              {this.ribButton(blog._user, blog._id)}
-              {this.deleteButton(blog._user, blog._id)}
-            </div>
-          </div>
-        ))
+          )
+        )
     }
     // console.log("state after fetchBlogs: ", store.getState())
   }
-  render() {
-    console.log("BlogList's props: ", this.props)
-    return <div>{this.renderBlogs()}</div>
-  }
+
+  //console.log("BlogList's props: ", this.props)
+  return <div>{renderBlogs()}</div>
 }
 
-const mapStateToProps = ({ blogs, auth }) => ({
-  blogs,
+const mapStateToProps = ({ auth }) => ({
   auth
 })
 
-export default connect(mapStateToProps, { fetchBlogs, deleteBlog, rib })(
-  BlogsList
-)
+export default connect(mapStateToProps)(BlogsList)

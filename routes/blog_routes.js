@@ -13,9 +13,7 @@ const commentTemplate = require("../services/emailTemplates/commentTemplate")
 
 module.exports = app => {
   app.get("/api/blogs", requireLogin, async (req, res) => {
-    const blogs = await Blogs.find({ _user: req.user.id }).select({
-      comments: false
-    })
+    const blogs = await Blogs.find({ _user: req.user.id })
     //  console.log("Found blogs: ", blogs)
     res.send(blogs)
   })
@@ -210,14 +208,8 @@ module.exports = app => {
 // back to be dispatched.
 
   app.post('/api/blogs/:_id/rib', requireLogin, requireCredits, async (req, res) => {
-    // try {
-    //   console.log("req.user: ",req.user)
-    // }catch(error){
-    //   console.log(error)
-    // }
-
     try {
-      const user = await User.findById(req.user._id).select("credits")
+      const user = req.user
       user.credits -= 1
       const { _id } = req.params
       const blog = await Blogs.findById(_id).select("ribs")

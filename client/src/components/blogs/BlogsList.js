@@ -63,7 +63,6 @@ class BlogsList extends Component {
           </div>
         ))
     }
-    // console.log("state after fetchBlogs: ", store.getState())
   }
   render() {
     console.log("BlogList's props: ", this.props)

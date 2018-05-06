@@ -14,6 +14,8 @@ import {
   TO_UNFOLLOW,
   OWN_FOLLOW,
   OWN_TIMELINE,
+  TRENDING,
+  PUT_OVER,
   RIB
 } from "./types"
 
@@ -58,8 +60,9 @@ export const fetchBlogDetail = blogId => async dispatch => {
 }
 
 export const fetchBlogs = () => async dispatch => {
+  console.log("fethBlogs invoked")
   const res = await axios.get("/api/blogs")
-
+  console.log("fethBlogs get request returned: ", res.data)
   dispatch({ type: FETCH_BLOGS, payload: res.data })
 }
 
@@ -141,8 +144,9 @@ export const fetchOwnFollow = () => async dispatch => {
 }
 
 export const fetchOwnTimeline = () => async dispatch => {
-  console.log("fetchOwnFollow action invoked")
+  console.log("fetchOwnTimeline action invoked")
   const res = await axios.get("/api/own/timeline")
+  console.log("FetchOwnTimeline get request returned: ", res.data)
   dispatch({
     type: OWN_TIMELINE,
     timeline: res.data
@@ -152,6 +156,7 @@ export const fetchOwnTimeline = () => async dispatch => {
 export const rib = blogId => async dispatch => {
   const res = await axios.post(`/api/blogs/${blogId}/rib`)
   const { ribs, _id, credits } = res.data
+  console.log("rib action res.data: ", res.data)
   dispatch({
     type: RIB,
     ribs,
@@ -160,15 +165,23 @@ export const rib = blogId => async dispatch => {
   })
 }
 
-// export const putOver = userId => async dispatch => {
-//   console.log("putOver invoked")
-//   const res = await axios.post(`/api/blogs/${blogId}/rib`)
-//   console.log("pputOver api call returned: ", res.data)
-//   const { ribs, _id, credits } = res.data
-//   dispatch({
-//     type: RIB,
-//     ribs,
-//     _id,
-//     credits
-//   })
-// }
+export const getTrending = () => async dispatch => {
+  console.log("trending invoked")
+  const res = await axios.get('/api/own/trending')
+  console.log("trending's res.data: ", res.data)
+  dispatch({
+    type: TRENDING,
+    payload: res.data
+  })
+}
+
+export const putOver = userId => async dispatch => {
+  console.log("putOver invoked")
+  const res = await axios.post(`/api/users/${userId}/putOver`)
+  console.log("putOver api call returned: ", res.data)
+  const { credits} = res.data
+  dispatch({
+    type: PUT_OVER,
+    credits
+  })
+}

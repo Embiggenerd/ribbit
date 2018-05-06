@@ -7,9 +7,14 @@ import blogDetailReducer from './blogDetailReducer'
 import { FETCH_COMMENTS, SUBMIT_COMMENT } from "../actions/types"
 import commentsReducer from "./commentsReducer"
 import userReducer from "./userReducer"
-// import followingReducer from './followingReducer'
-// import followersReducer from './followersReducer'
+import followingReducer from './followingReducer'
+import followersReducer from './followersReducer'
 import ownReducer from "./ownReducer"
+import ownTimelineReducer from "./ownTimelineReducer"
+import ownBlogsReducer from "./ownBlogsReducer"
+import trendingReducer from "./trendingReducer"
+
+
 
 export default combineReducers({
   auth: authReducer,
@@ -28,7 +33,12 @@ export default combineReducers({
   blogDetail: blogDetailReducer,
   commentsList: commentsReducer,
   user: userReducer,
-  own: ownReducer
+  own: ownReducer,
+  ownBlogs: ownBlogsReducer,
+  ownTimeline: ownTimelineReducer,
+  trending: trendingReducer,
+  userFollowers: followersReducer,
+  userFollowing: followingReducer
 })
 // export default combineReducers({
 //   auth: authReducer,

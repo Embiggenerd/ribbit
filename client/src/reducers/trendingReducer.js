@@ -1,8 +1,8 @@
-import { FETCH_BLOGS, RIB } from "../actions/types"
+import { TRENDING, RIB } from "../actions/types"
 
-export default function(state=[], action) {
+export default function (state=[], action) {
   switch(action.type){
-    case FETCH_BLOGS:
+    case TRENDING:
       return action.payload
     case RIB:
       if (Object.keys(state).length !== 0){
@@ -26,6 +26,6 @@ export default function(state=[], action) {
       } else {
         return state
       }
-      default: return state
+    default: return state
   }
 }

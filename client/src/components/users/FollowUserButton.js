@@ -14,7 +14,7 @@ const FollowUserButton = ({
   if (followerIds.indexOf(auth._id) > -1) {
     return (
       <button
-        className="teal btn-flat right white-text"
+        className="teal btn-flat white-text"
         onClick={() => onClickUnfollowHandler(_user)}
       >
         Unfollow
@@ -23,7 +23,7 @@ const FollowUserButton = ({
   } else {
     return (
       <button
-        className="teal btn-flat right white-text"
+        className="teal btn-flat white-text"
         onClick={() => onClickFollowHandler(_user)}
       >
         Follow

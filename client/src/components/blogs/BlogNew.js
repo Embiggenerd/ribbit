@@ -6,7 +6,7 @@ import { reduxForm } from 'redux-form'
 * This is simple display component, which has state only to toggle the forms
 on and off.
 * Best way to think of forms and component tree is that BlogNew wraps BlogForm
-to get access to onSurveySubmit, onCancel.
+to give blofForm  access to onSurveySubmit, onCancel.
 * BlogForm wraps Field components from redux-form.
 * Field wraps our SurveysField, allowing it to receive standard redux-form properties,
  handlers, etc.
@@ -27,7 +27,6 @@ class BlogNew extends Component {
     />
   }
   render() {
-    console.log("BlogNew state: ", this.state.showFormReview)
     return (
       <div>
         {this.renderContent()}

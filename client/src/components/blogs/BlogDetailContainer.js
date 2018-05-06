@@ -22,6 +22,8 @@ class BlogDetailContainer extends Component {
       timeMounted: 0
     }
     this.calcReadingHours = timeUnmounted => {
+      // Simply reports time of time unmounting - mounting to backand api
+      // with the author's id 
       const timeDiff = Math.abs(
         (timeUnmounted - this.state.timeMounted) / (1000 * 60 * 60)
       )
@@ -47,7 +49,6 @@ class BlogDetailContainer extends Component {
     this.props.fetchComments(this.props.match.params._id)
     this.props.fetchBlogDetail(this.props.match.params._id)
     console.log(this.props)
-    //console.log("history: ",this.props.history)
   }
   componentDidUpdate() {
     this.jumpToHash()
@@ -75,12 +76,6 @@ class BlogDetailContainer extends Component {
           _user,
           _id
         } = this.props.blogDetail
-        console.log("detail _user:", _user)
-        console.log("detail auth._id:", this.props.auth._id)
-        console.log(
-          "does _user triple equals auth._id?",
-          _user === this.props.auth._id
-        )
         return (
           <div>
             <div className="card blue-grey darken-1 yellow-text">

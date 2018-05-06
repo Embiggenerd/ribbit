@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
+import { Link } from 'react-router-dom'
 // import { fetchOwnFollow } from "../actions"
 import TimelineContainer from "./timeline/TimelineContainer.js"
 
@@ -27,7 +28,16 @@ class Landing extends Component {
           </div>
         )
       default:
-        return <TimelineContainer />
+        return (
+          <div>
+            <TimelineContainer />
+            <div className="fixed-action-btn">
+              <Link to="/blogs/new" className="btn-floating btn-large red">
+                <i className="material-icons">add</i>
+              </Link>
+            </div>
+          </div>
+      )
     }
   }
 }

@@ -4,11 +4,10 @@ import { reduxForm, Field } from "redux-form"
 import { Link } from "react-router-dom"
 //import SurveyField from "./SurveyField"
 import validateEmails from "../../utils/validateEmails"
-import formFields from './formFields'
-import BlogField from './BlogField'
+import formFields from "./formFields"
+import BlogField from "./BlogField"
 
 class BlogForm extends Component {
-
   renderFields() {
     return _.map(formFields, ({ label, name }) => {
       return (
@@ -19,23 +18,19 @@ class BlogForm extends Component {
           label={label}
           name={name}
         />
-        )
+      )
     })
   }
 
   render() {
-    // console.log(this.props)
     return (
-      <div >
+      <div>
         <form onSubmit={this.props.handleSubmit(this.props.onBlogSubmit)}>
           {this.renderFields()}
-          <Link to="/blogs" className="red btn-flat left white-text">
+          <Link to="/" className="red btn-flat left white-text">
             Cancel
           </Link>
-          <button
-            type="submit"
-
-            className="teal btn-flat right white-text">
+          <button type="submit" className="teal btn-flat right white-text">
             Next
             <i className="material-icons right">done</i>
           </button>
@@ -47,7 +42,6 @@ class BlogForm extends Component {
 
 function validate(values) {
   const errors = {}
-  // Returns emails that are not valid according to imported regex
 
   if (!values.title) {
     errors.title = "Required!"
@@ -58,19 +52,6 @@ function validate(values) {
   return errors
 }
 
-// function validate(values) {
-//   const errors = {};
-//
-//   errors.emails = validateEmails(values.emails || '');
-//
-//   _.each(formFields, ({ name }) => {
-//     if (!values[name]) {
-//       errors[name] = 'You must provide a value';
-//     }
-//   });
-//
-//   return errors;
-// }
 export default reduxForm({
   validate,
   form: "blogForm",

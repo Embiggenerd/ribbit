@@ -6,12 +6,13 @@ import {
   fetchComments,
   deleteBlog,
   deleteComment,
+  getTrending,
   rib
 } from "../../actions"
-import Timeline from "./timeline"
+// import Timeline from "./timeline"
 import BlogList from "./BlogList"
 import CommentList from "./CommentList"
-import TrendingList from "./TrendingList"
+// import TrendingList from "./TrendingList"
 
 class TimelineContainer extends Component {
   state = {
@@ -19,49 +20,60 @@ class TimelineContainer extends Component {
   }
 
   componentDidMount() {
+    console.log("TimelineContiner did mount")
     this.props.fetchOwnTimeline()
-  }
-
-  renderShow() {
-    switch (this.state.showType) {
-      case "timeline":
-        return (
-          <Timeline
-            rib={this.props.rib}
-            deleteBlog={this.props.deleteBlog}
-            list={this.state.timeline}
-          />
-        )
-      case "bloglist":
-        return (
-          <BlogList
-            rib={this.props.rib}
-            deleteBlog={this.props.deleteBlog}
-            list={this.props.blogs}
-          />
-        )
-      case "commentlist":
-        return <CommentsList list={this.props.comments} />
-      case "trending":
-        return (
-          <BlogList
-            rib={this.props.rib}
-            deleteBlog={this.props.deleteBlog}
-            list={this.props.trending}
-          />
-        )
-    }
   }
 
   onClickHandler(showType) {
     this.setState({ showType })
     switch (showType) {
-      case "bloglist" && this.props.blogs:
-        this.props.fetchBlogs()
+      case "bloglist":
+        return this.props.ownBlogs.length === 0 && this.props.fetchBlogs()
+      case "timeline":
+        return this.props.ownTimeline.length === 0 && this.props.fetchOwnTimeline()
+      case "trending":
+        return this.props.trending.length === 0 && this.props.getTrending()
+      default:
+        return
+    }
+  }
+
+  handlers = {
+    // "timeline": value => <BlogList blogs={value}/>,
+    bloglist: value => (
+      <BlogList
+        rib={this.props.rib}
+        deleteBlog={this.props.deleteBlog}
+        blogs={value}
+        authId={this.props._id}
+      />
+    ),
+    commentList: value => (
+      <CommentList deleteComment={this.props.deleteComment} comments={value} />
+    )
+  }
+
+  displayData(type, value) {
+    const handler = this.handlers[type]
+    return handler(value)
+  }
+
+  renderShow() {
+    const { showType } = this.state
+    switch (showType) {
+      case "timeline":
+        return this.displayData("bloglist", this.props.ownTimeline)
+      case "bloglist":
+        return this.displayData("bloglist", this.props.ownBlogs)
+      case "trending":
+        return this.displayData("bloglist", this.props.trending)
+      default:
+        return <div>Waiting...</div>
     }
   }
 
   render() {
+    console.log("TimeLineContainer's props: ", this.props)
     return (
       <div>
         <button
@@ -77,12 +89,6 @@ class TimelineContainer extends Component {
           Blogs
         </button>
         <button
-          onClick={() => this.onClickHandler("commentlist")}
-          className="waves-effect waves-light btn-large"
-        >
-          Comments
-        </button>
-        <button
           onClick={() => this.onClickHandler("trending")}
           className="waves-effect waves-light btn-large"
         >
@@ -94,9 +100,17 @@ class TimelineContainer extends Component {
   }
 }
 
-const mapStateToProps = ({ own: { timeline, blogs, comments, trending } }) => ({
-  timeline,
-  blogs
+const mapStateToProps = ({
+  ownTimeline,
+  ownBlogs,
+  auth: { _id },
+  ownComments,
+  trending
+}) => ({
+  ownTimeline,
+  ownBlogs,
+  _id,
+  trending
 })
 
 export default connect(mapStateToProps, {
@@ -105,5 +119,6 @@ export default connect(mapStateToProps, {
   fetchComments,
   deleteBlog,
   deleteComment,
+  getTrending,
   rib
 })(TimelineContainer)

@@ -1,5 +1,7 @@
 const _ = require("lodash")
 const D = require("decimal")
+const requireLogin = require("../middlewares/requireLogin")
+const requireCredits = require("../middlewares/requireCredits")
 const User = require("../models/User")
 const Follower = require("../models/Follower")
 const Following = require("../models/Following")
@@ -20,17 +22,6 @@ module.exports = app => {
       }
     })
   })
-
-  // app.get("/api/users/:_user/comments", async (req, res) => {
-  //   const { _user } = req.params
-  //   console.log("fetchUserComments router: ", _user)
-  //   try {
-  //     const comments = await Comment.find({ _user })
-  //     res.send(comments)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // })
 
   app.get("/api/users/:_id/followers", (req, res) => {
     console.log("fetchFollowers req.params._id: ", req.params._id)
@@ -91,21 +82,11 @@ module.exports = app => {
       console.log(error)
     }
   })
+
   app.post("/api/users/:_id/hours", async (req, res) => {
     let { body: { hours }, params: { _id } } = req
-    //
-    // User.findOne({ _id }, async (error, success) => {
-    //   if (error) {
-    //     console.log(error)
-    //   } else {
-    //     success.readingHours += hours
-    //     const user = await success.save()
-    //     res.send(user)
-    //   }
-    // })
     try {
       let user = await User.findOne({ _id })
-      //.select("readingHours")
       const updatedHours = user.readingHours + hours
       const updatedCounter = user.hoursCounter + hours
       user.readingHours = _.round(updatedHours, 4)
@@ -119,15 +100,20 @@ module.exports = app => {
     } catch (error) {
       console.log(error)
     }
-    //     User.findOne({_id}, (error, success) => {
-    //       const updatedHours = success.readingHours +
-    //       const updatedCounter = success.hoursCounter
-    //       if (success.hoursCounter > = 1) {
-    //         success.credits += 1
-    //         success.hoursCounter =
-    //       }
-    //     }).forEach(function(error, success){
-    //       var updated = Math.round(hours);
-    // Players.update({"_id":doc._id},{$set:{"money":updated}}); })
+  })
+
+  app.post('/api/users/:_id/putOver', requireLogin, requireCredits, async (req, res)  => {
+    const { params:{_id} } = req
+    try {
+      const user = await User.findById(_id).select("credits displayName")
+      user.credits += 1
+      const own = req.user
+      own.credits -= 1
+      const updatedOwn = await own.save()
+      const updatedUser = await user.save()
+      res.send({credits: updatedOwn.credits })
+    } catch(error) {
+      console.log(error)
+    }
   })
 }
