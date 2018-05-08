@@ -14,7 +14,6 @@ const commentTemplate = require("../services/emailTemplates/commentTemplate")
 module.exports = app => {
   app.get("/api/blogs", requireLogin, async (req, res) => {
     const blogs = await Blogs.find({ _user: req.user.id })
-    //  console.log("Found blogs: ", blogs)
     res.send(blogs)
   })
 
@@ -27,24 +26,17 @@ module.exports = app => {
       console.log(error)
     }
   })
-  //  console.log("Found blogs: ", blogs)
 
   app.post("/api/blogs", requireLogin, async (req, res) => {
     // Properties on req.body sent from redux form.
-    // Notice recipients formatted so
-    const { title, subject, body, mentions } = req.body
+    const { title, body } = req.body
     const blog = new Blogs({
       title,
-      subject,
       body,
-      mentions: mentions
-        .split(",")
-        .map(mention => ({ mention: mention.trim() })),
       _user: req.user.id,
       _userDisplayName: req.user.displayName,
       dateSent: Date.now()
     })
-    //console.log("survey model instance created in api/blogs route: ", Blogs)
 
     try {
       const savedBlog = await blog.save()
@@ -54,15 +46,6 @@ module.exports = app => {
     }
   })
 
-  // app.post('/api/blog/comment', requireLogin, requireCredits, async (req, res) => {
-  //   const { text, user, _id } = req.body
-  //   Blogs.postComment(_id, text, user.id, function(data) {
-  //     console.log("Blogs' postComment's cb param: ", data)
-  //   })
-  // })
-  // app.get("/api/blogs/list", requireLogin, async (req, res) => {
-  //   res.send({text:"hithere"})
-  // })
   app.get("/api/blog/:blogid/detail", requireLogin, async (req, res) => {
     const { blogid } = req.params
 
@@ -73,9 +56,6 @@ module.exports = app => {
         res.send(success)
       }
     })
-    //console.log('blog detail req.params : ', req.params)
-
-    //const blog = Blogs.findOne(_id: )
   })
 
   app.post("/api/comments/submit", requireLogin, async (req, res) => {
@@ -111,15 +91,6 @@ module.exports = app => {
         })
       }
     })
-    // try {
-    //   await mailer.send()
-    //   comment = await comment.save()
-    //   // req.user.credits -= 1
-    //   // await req.user.save()
-    //   res.send(comment)
-    // } catch(error) {
-    //   res.status(422).send(error)
-    // }
   })
 
   app.get("/api/blog/:_blog/comments", requireLogin, async (req, res) => {
@@ -128,22 +99,9 @@ module.exports = app => {
       if (error) {
         handleError(error)
       } else {
-        //console.log(success)
         res.send(success)
       }
     })
-    // try {
-    //   const comments = await Comment.find({ _blog:blogId }, (error, success) => {
-    //     if (error) {
-    //       console.log(error)
-    //     } else {
-    //       console.log(success)
-    //       res.send(success)
-    //     }
-    //   })
-    // } catch(err) {
-    //   res.status(422).send(err)
-    // }
   })
   app.get("/api/users/:_user/comments", async (req, res) => {
     const { _user } = req.params
@@ -170,19 +128,6 @@ module.exports = app => {
     }
   )
   app.post("/api/blogs/:blogId/delete", requireLogin, async (req, res) => {
-    // const removedBlog = await Blogs.findByIdAndRemove(req.params.blogId, (error, success) => {
-    //   if(error) {
-    //     console.log(error)
-    //   } else {
-    //     res.send(success)
-    //     // Comment.remove({_user: }(error, success) => {
-    //     //   if(error) {
-    //     //     console.log(error)
-    //     //   } else res.send()
-    //     // })
-    //   }
-    // })
-    //console.log("delete blogs router invoked, blogId = ", req.params.blogId)
     const removedBlog = Blogs.findByIdAndRemove(
       req.params.blogId,
       (error, success) => {
@@ -203,27 +148,31 @@ module.exports = app => {
     )
   })
   // Query user from req info to get most recent credit data.
-// Take away a credit from user.
-// Query blog by id, add rib to blog, rib and blog id data
-// back to be dispatched.
+  // Take away a credit from user.
+  // Query blog by id, add rib to blog, rib and blog id data
+  // back to be dispatched.
 
-  app.post('/api/blogs/:_id/rib', requireLogin, requireCredits, async (req, res) => {
-    try {
-      const user = req.user
-      user.credits -= 1
-      const { _id } = req.params
-      const blog = await Blogs.findById(_id).select("ribs")
-      blog.ribs += 1
-      const updatedUser = await user.save()
-      const updatedBlog = await blog.save()
-      res.send({
-        ribs: updatedBlog.ribs,
-        _id,
-        credits: updatedUser.credits
-      })
-    } catch(error) {
-      console.log(error)
+  app.post(
+    "/api/blogs/:_id/rib",
+    requireLogin,
+    requireCredits,
+    async (req, res) => {
+      try {
+        const user = req.user
+        user.credits -= 1
+        const { _id } = req.params
+        const blog = await Blogs.findById(_id).select("ribs")
+        blog.ribs += 1
+        const updatedUser = await user.save()
+        const updatedBlog = await blog.save()
+        res.send({
+          ribs: updatedBlog.ribs,
+          _id,
+          credits: updatedUser.credits
+        })
+      } catch (error) {
+        console.log(error)
+      }
     }
-
-  })
+  )
 }

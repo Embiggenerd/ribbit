@@ -4,8 +4,8 @@ const cookieSession = require("cookie-session")
 const passport = require("passport")
 const bodyParser = require("body-parser")
 const keys = require("./config/keys")
+const { errorLogger, clientErrorHandler, errorHandler } =require("./validatorMiddleware")
 require("./models/User")
-require("./models/Survey")
 require("./services/passport")
 
 
@@ -28,13 +28,12 @@ app.use(
 )
 
 app.use(passport.initialize())
-
 app.use(passport.session())
+
 
 // Pass express instance to route functions modules
 require("./routes/auth_routes")(app)
 require("./routes/billing_routes")(app)
-require("./routes/survey_routes")(app)
 require("./routes/blog_routes")(app)
 require("./routes/user_routes")(app)
 require("./routes/own_routes")(app)
@@ -52,6 +51,9 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
   })
 }
+app.use(errorLogger)
+app.use(clientErrorHandler)
+
 
 const PORT = process.env.PORT || 5000 // Heroku env variable
 app.listen(PORT) // Which port to listen on.

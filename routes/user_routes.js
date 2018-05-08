@@ -11,8 +11,6 @@ const following = mongoose.model("following")
 
 module.exports = app => {
   app.get("/api/users/:_id/following", (req, res) => {
-    console.log("fetchFolloweing req.params._id: ", req.params._id)
-
     User.findById(req.params._id, (error, success) => {
       if (error) {
         console.log(error)
@@ -24,7 +22,6 @@ module.exports = app => {
   })
 
   app.get("/api/users/:_id/followers", (req, res) => {
-    console.log("fetchFollowers req.params._id: ", req.params._id)
     User.findById(req.params._id, (error, success) => {
       if (error) {
         console.log(error)
@@ -102,18 +99,23 @@ module.exports = app => {
     }
   })
 
-  app.post('/api/users/:_id/putOver', requireLogin, requireCredits, async (req, res)  => {
-    const { params:{_id} } = req
-    try {
-      const user = await User.findById(_id).select("credits displayName")
-      user.credits += 1
-      const own = req.user
-      own.credits -= 1
-      const updatedOwn = await own.save()
-      const updatedUser = await user.save()
-      res.send({credits: updatedOwn.credits })
-    } catch(error) {
-      console.log(error)
+  app.post(
+    "/api/users/:_id/putOver",
+    requireLogin,
+    requireCredits,
+    async (req, res) => {
+      const { params: { _id } } = req
+      try {
+        const user = await User.findById(_id).select("credits displayName")
+        user.credits += 1
+        const own = req.user
+        own.credits -= 1
+        const updatedOwn = await own.save()
+        const updatedUser = await user.save()
+        res.send({ credits: updatedOwn.credits })
+      } catch (error) {
+        console.log(error)
+      }
     }
-  })
+  )
 }

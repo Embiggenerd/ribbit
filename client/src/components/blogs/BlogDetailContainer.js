@@ -23,7 +23,7 @@ class BlogDetailContainer extends Component {
     }
     this.calcReadingHours = timeUnmounted => {
       // Simply reports time of time unmounting - mounting to backand api
-      // with the author's id 
+      // with the author's id
       const timeDiff = Math.abs(
         (timeUnmounted - this.state.timeMounted) / (1000 * 60 * 60)
       )
@@ -68,7 +68,6 @@ class BlogDetailContainer extends Component {
       default:
         const {
           title,
-          subject,
           body,
           dateSent,
           ribs,
@@ -91,7 +90,6 @@ class BlogDetailContainer extends Component {
               </div>
               <div className="card-action">
                 <a>Ribs: {ribs}</a>
-                <a className="right">Subjects: {subject}</a>
                 {this.ribButton(_user, _id)}
                 {this.deleteButton(_user, _id)}
               </div>

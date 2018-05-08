@@ -1,11 +1,10 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import { Link } from 'react-router-dom'
-// import { fetchOwnFollow } from "../actions"
+import { Link } from "react-router-dom"
 import TimelineContainer from "./timeline/TimelineContainer.js"
+import AddBlogButton from './buttons/addBlogButton'
 
 class Landing extends Component {
-
   render() {
     switch (this.props.auth) {
       case null:
@@ -31,20 +30,15 @@ class Landing extends Component {
         return (
           <div>
             <TimelineContainer />
-            <div className="fixed-action-btn">
-              <Link to="/blogs/new" className="btn-floating btn-large red">
-                <i className="material-icons">add</i>
-              </Link>
-            </div>
+            <AddBlogButton />
           </div>
-      )
+        )
     }
   }
 }
 
 const mapStateToProps = ({ auth }) => ({
-  auth,
-
+  auth
 })
 
 export default connect(mapStateToProps)(Landing)

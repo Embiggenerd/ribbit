@@ -41,7 +41,6 @@ most recent blogs.
               ...blog._doc,
               ranking: ownTimelineRank(blog.dateSent, user.readingHours)
             }))
-            //  console.log("blogsWithHours: ", blogsWithHours)
             return blogsWithHours
           } catch (error) {
             console.log(error)
@@ -70,7 +69,6 @@ most recent blogs.
       const trendingBlogs = await Blog.find({})
         .sort("-dateSent")
         .limit(50)
-      console.log("trendingBlogs:", trendingBlogs)
       const trendingAuthors = trendingBlogs.map(blog => blog._user.toString())
       // get list of unique authors to find their readingHours
       const uniqAuthors = [...new Set(trendingAuthors)]
@@ -87,7 +85,6 @@ most recent blogs.
         acc[next._user] = next.readingHours
         return acc
       }, {})
-      console.log("handler:", handler)
       const rankedTrending = trendingBlogs
         .map(blog => {
           return Object.assign({}, blog._doc, {
@@ -95,7 +92,6 @@ most recent blogs.
           })
         })
         .sort((a, b) => b.ranking - a.ranking)
-      console.log("rankedTrending", rankedTrending)
       res.send(rankedTrending)
     } catch (error) {
       console.log(error)

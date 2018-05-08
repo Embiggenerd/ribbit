@@ -3,7 +3,6 @@ import StripeCheckout from 'react-stripe-checkout'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
 
-//console.log(process.env.REACT_APP_STRIPE_KEY)
 class Payments extends Component {
   render() {
     return (

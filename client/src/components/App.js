@@ -8,7 +8,6 @@ import BlogNew from "./blogs/BlogNew"
 import BlogDetailContainer from "./blogs/BlogDetailContainer"
 import UserContainer from "./users/UserContainer"
 import Header from "./Header"
-import SurveyNew from "./surveys/SurveyNew"
 
 class App extends Component {
   componentDidMount() {

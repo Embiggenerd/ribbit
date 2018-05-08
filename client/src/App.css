@@ -1,0 +1,22 @@
+.container {
+  width: 85%;
+}
+
+#body {
+  height: 200px;
+}
+
+.input-field label{
+  pointer-events: all !important;
+}
+form#blogForm > *{
+  margin-bottom: 20px;
+}
+
+.red-text {
+  margin-bottom: 20px;
+}
+
+ul#headerUl li {
+  margin-left: 15px;
+}

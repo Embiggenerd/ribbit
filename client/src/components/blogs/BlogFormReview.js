@@ -6,13 +6,12 @@ import { submitBlog } from '../../actions'
 import { withRouter } from 'react-router-dom'
 
 /*
-* This component passes history to submitBlog action so that it can redirect
-to a React Router url by calling history.push. Otherwise, we would have
-no way to access it.
+* This component passes history prop to submitBlog action for navigation
 */
 
 const BlogFormReview = (props) => {
   const {onCancel, formValues, submitBlog, history} = props
+
   const reviewFields = _.map(formFields, ({ name, label }) => {
     return (
       <div key={name}>

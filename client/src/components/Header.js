@@ -15,28 +15,33 @@ class Header extends Component {
         )
       default:
         return [
-          <li key={0} style={{ marginRight: '15px' }}>{this.props.auth.displayName}</li>,
+          <li key={0}>{this.props.auth.displayName}</li>,
           <li key={1}><Payments /></li>,
-          <li key={3} style={{ marginLeft: '15px' }}>
+          <li key={3}>
             Credits: {this.props.auth.credits}
           </li>,
-          <li key={2}><a href="/api/logout">Logout</a></li>
+          <li key={2}><a href="/api/logout">Logout</a></li>,
+          <li key={4}><Link
+            to={'/dashboard'}
+          >
+            Dashboard
+          </Link></li>
+
         ]
     }
   }
 
   render() {
-    // console.log("Global State: ",store.getState())
     return (
       <nav>
         <div className="nav-wrapper">
           <Link
-            to={this.props.auth ? '/dashboard' : '/'}
+            to={this.props.auth ? '/' : '/'}
             className="left brand-logo"
           >
-            Dashboard
+            Ribbit
           </Link>
-          <ul className="right">
+          <ul className="right" id="headerUl">
             {this.renderContent()}
           </ul>
         </div>

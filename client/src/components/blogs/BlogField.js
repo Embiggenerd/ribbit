@@ -1,15 +1,25 @@
 import React from 'react'
 
 export default (props) => {
-  console.log("BlogField props: ", props)
-  const {input, label, meta:{ error, touched }} = props
+  const {input, textArea, label, id, meta:{ error, touched }} = props
+  if(textArea) {
+    return (
+      <div>
+         <label>{label}</label>
+         <textarea  id={id} className="materialize-textarea" {...input}  />
+         <div className="red-text" >
+           {touched && error}
+         </div>
+      </div>
+    )
+  }
   return (
     <div>
-      <label>{label}</label>
-      <input {...input} style={{ marginBottom:'5px'}}/>
-      <div className="red-text" style={{marginBottom:'20px'}}>
-        {touched && error}
-      </div>
-    </div>
+     <label>{label}</label>
+     <input {...input}  />
+     <div className="red-text" >
+       {touched && error}
+     </div>
+   </div>
   )
 }

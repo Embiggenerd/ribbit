@@ -2,16 +2,17 @@ import _ from "lodash"
 import React, { Component } from "react"
 import { reduxForm, Field } from "redux-form"
 import { Link } from "react-router-dom"
-//import SurveyField from "./SurveyField"
 import validateEmails from "../../utils/validateEmails"
 import formFields from "./formFields"
 import BlogField from "./BlogField"
 
 class BlogForm extends Component {
   renderFields() {
-    return _.map(formFields, ({ label, name }) => {
+    return _.map(formFields, ({ label, name, id, textArea }) => {
       return (
         <Field
+          textArea={textArea}
+          id={id}
           key={name}
           component={BlogField}
           type="text"
@@ -24,8 +25,8 @@ class BlogForm extends Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.props.handleSubmit(this.props.onBlogSubmit)}>
+      <div className="row">
+        <form id="blogForm" className="col s12"onSubmit={this.props.handleSubmit(this.props.onBlogSubmit)}>
           {this.renderFields()}
           <Link to="/" className="red btn-flat left white-text">
             Cancel
