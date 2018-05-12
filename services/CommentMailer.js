@@ -4,7 +4,7 @@ const keys = require("../config/keys")
 
 class Mailer extends helper.Mail {
   constructor({ email }, content) {
-    super() // Invokes constructor on helper.Mail
+    super() 
 
     this.sgApi = sendgrid(keys.sendGridKey)
     this.from_email = new helper.Email("no-reply@ribbit.ai")

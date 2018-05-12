@@ -1,3 +1,10 @@
+const boomHandler = (err, req, res, next) => {
+  if (err.isServer) {
+    console.log("error not boom object")
+  }
+  return res.status(err.output.statusCode).json(err.output.payload);
+}
+
 const errorLogger = (err, req, res, next) => {
   console.error(err.stack)
   next(err)
@@ -20,6 +27,7 @@ const errorHandler = (err, req, res, next) => {
 }
 
 module.exports = {
+  boomHandler,
   clientErrorHandler,
   errorLogger,
   errorHandler

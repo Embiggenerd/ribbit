@@ -1,8 +1,5 @@
 const passport = require("passport")
 
-/*
-  We made module.exports an invokable function, take
-*/
 module.exports = (app) => {
 
   app.get( // When someone goes to this URL, run passport.authenticate

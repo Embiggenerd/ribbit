@@ -14,6 +14,8 @@ import CommentForm from "./CommentForm"
 import CommentsList from "./CommentsList"
 import scrollToElement from "scroll-to-element"
 import ribButton from "../buttons/ribButton"
+import { withRouter } from 'react-router-dom'
+
 
 class BlogDetailContainer extends Component {
   constructor(props) {
@@ -36,10 +38,10 @@ class BlogDetailContainer extends Component {
       return <button onClick={() => this.props.rib(blogId)}>RIBBIT</button>
   }
 
-  deleteButton(blogUser, blogId) {
+  deleteButton(blogUser, blogId, history) {
     if (this.props.auth._id === blogUser)
       return (
-        <button onClick={() => this.props.deleteBlog(blogId)}>Delete</button>
+        <button onClick={() => this.props.deleteBlog(blogId, history)}>Delete</button>
       )
   }
   componentDidMount() {
@@ -48,7 +50,6 @@ class BlogDetailContainer extends Component {
     })
     this.props.fetchComments(this.props.match.params._id)
     this.props.fetchBlogDetail(this.props.match.params._id)
-    console.log(this.props)
   }
   componentDidUpdate() {
     this.jumpToHash()
@@ -75,6 +76,7 @@ class BlogDetailContainer extends Component {
           _user,
           _id
         } = this.props.blogDetail
+        const { history } = this.props
         return (
           <div>
             <div className="card blue-grey darken-1 yellow-text">
@@ -91,7 +93,7 @@ class BlogDetailContainer extends Component {
               <div className="card-action">
                 <a>Ribs: {ribs}</a>
                 {this.ribButton(_user, _id)}
-                {this.deleteButton(_user, _id)}
+                {this.deleteButton(_user, _id, history)}
               </div>
             </div>
           </div>
@@ -127,4 +129,4 @@ export default connect(mapStateToProps, {
   deleteComment,
   deleteBlog,
   rib
-})(BlogDetailContainer)
+})(withRouter(BlogDetailContainer))

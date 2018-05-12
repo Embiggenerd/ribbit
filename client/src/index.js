@@ -8,9 +8,11 @@ import './App.css'
 import App from './components/App'
 import reducers from './reducers'
 import axios from 'axios'
+import { logger } from './middlewear'
 
 
-const store = createStore(reducers, {}, applyMiddleware(reduxThunk))
+
+const store = createStore(reducers, {}, applyMiddleware(reduxThunk, logger))
 export default store
 window.store = store.getState()
 ReactDOM.render(

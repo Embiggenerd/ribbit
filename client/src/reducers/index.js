@@ -12,6 +12,7 @@ import ownBlogsReducer from "./ownBlogsReducer"
 import trendingReducer from "./trendingReducer"
 import ownFollowingReducer from "./ownFollowingReducer"
 import ownFollowersReducer from "./ownFollowersReducer"
+import errorReducer from "./errorReducer"
 
 
 
@@ -38,7 +39,8 @@ export default combineReducers({
   ownTimeline: ownTimelineReducer,
   trending: trendingReducer,
   userFollowers: followersReducer,
-  userFollowing: followingReducer
+  userFollowing: followingReducer,
+  error: errorReducer
 })
 // export default combineReducers({
 //   auth: authReducer,

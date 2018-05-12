@@ -1,4 +1,5 @@
 import axios from "axios"
+import { wrapAsync } from '../middlewear'
 import {
   FETCH_USER,
   FETCH_SURVEYS,
@@ -31,44 +32,27 @@ export const handleToken = token => async dispatch => {
   dispatch({ type: FETCH_USER, payload: res.data })
 }
 
-export const submitSurvey = (values, history) => async dispatch => {
-  const res = await axios.post("/api/surveys", values)
-  history.push("/surveys")
-  dispatch({ type: FETCH_USER, payload: res.data })
-}
+export const submitBlog = (values, history) => wrapAsync(async dispatch => {
 
-export const fetchSurveys = () => async dispatch => {
-  const res = await axios.get("api/surveys")
+    const res = await axios.post("/api/blogs", values)
+    history.push("/dashboard")
 
-  dispatch({ type: FETCH_SURVEYS, payload: res.data })
-}
-
-export const submitBlog = (values, history) => async dispatch => {
-  const res = await axios.post("/api/blogs", values)
-  history.push("/dashboard")
-  console.log("submitBlog's response: ", res.data)
-  //dispatch({ type: , payload: res.data })
-}
+})
 
 export const fetchBlogDetail = blogId => async dispatch => {
-  //  console.log("fetchBlogDetail action was invoked with ", blogId)
   const getUrl = `/api/blog/${blogId}/detail`
-  console.log("fetchBlogDetail action invoked: ", getUrl)
   const res = await axios.get(getUrl)
-
   dispatch({ type: FETCH_BLOG_DETAIL, payload: res.data })
 }
 
 export const fetchBlogs = () => async dispatch => {
   console.log("fethBlogs invoked")
   const res = await axios.get("/api/blogs")
-  console.log("fethBlogs get request returned: ", res.data)
   dispatch({ type: FETCH_BLOGS, payload: res.data })
 }
 
 export const fetchUserBlogs = _user => async dispatch => {
   const res = await axios.get(`/api/blogs/${_user}`)
-
   dispatch({ type: FETCH_BLOGS, payload: res.data })
 }
 
@@ -90,9 +74,10 @@ export const fetchUserComments = userId => async dispatch => {
   dispatch({ type: FETCH_COMMENTS, payload: res.data })
 }
 
-export const deleteBlog = blogId => async dispatch => {
+export const deleteBlog = (blogId, history) => async dispatch => {
   const res = await axios.post(`/api/blogs/${blogId}/delete`)
   console.log("deleteBlog invoked, deleted: ", res.data._id, blogId)
+  history.push("/dashboard")
   dispatch({ type: DELETE_BLOG, payload: res.data })
 }
 
@@ -167,7 +152,7 @@ export const rib = blogId => async dispatch => {
 
 export const getTrending = () => async dispatch => {
   console.log("trending invoked")
-  const res = await axios.get('/api/own/trending')
+  const res = await axios.get("/api/own/trending")
   console.log("trending's res.data: ", res.data)
   dispatch({
     type: TRENDING,
@@ -179,7 +164,7 @@ export const putOver = userId => async dispatch => {
   console.log("putOver invoked")
   const res = await axios.post(`/api/users/${userId}/putOver`)
   console.log("putOver api call returned: ", res.data)
-  const { credits} = res.data
+  const { credits } = res.data
   dispatch({
     type: PUT_OVER,
     credits

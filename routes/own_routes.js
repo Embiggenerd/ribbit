@@ -2,59 +2,53 @@ const User = require("../models/User")
 const Blog = require("../models/Blog")
 const _ = require("lodash")
 const { ownTimelineRank, trendingRank } = require("../utils/rankAlgs")
+const wrapAsync = require("../middlewares/asyncWrapper")
 
 module.exports = app => {
-  app.get("/api/own/follow", async (req, res) => {
-    try {
+  app.get(
+    "/api/own/follow",
+    wrapAsync(async (req, res) => {
       const ownUser = await User.findById(req.user.id)
       const ownFollowsObject = {
         followers: ownUser.followers,
         following: ownUser.following
       }
       res.send(ownFollowsObject)
-    } catch (error) {
-      console.log(error)
-    }
-  })
+    })
+  )
 
   /*
-* Finds list of people user is following, make list of lists of 20 of their blogs
-most recent blogs.
-* Attach to each blog object a ranking based on author's reading hours, time since posted.
-* flatten array, sort by ranking, return.
-*
-*/
-  app.get("/api/own/timeline", async (req, res) => {
-    console.log("ownTimeline route invoked")
-    try {
+  * Retrieves all the posts of the users requester is following, ranks them
+  in such a way that both time since posted and author's popularity are considered
+  */
+  app.get(
+    "/api/own/timeline",
+    wrapAsync(async (req, res) => {
+      console.log("ownTimeline route invoked")
+      // Get user ids of those you are following
       const { following } = await User.findById(req.user.id).select("following")
+      // Retreive their 20 most recent blogs, reading hours in parallel
       const followBlogsArr = await Promise.all(
         following.map(async follow => {
-          try {
-            const user = await User.findById(follow._user).select(
-              "readingHours"
-            )
-            const followBlogs = await Blog.find({ _user: follow._user })
-              .sort("-dateSent")
-              .limit(20)
-            const blogsWithHours = followBlogs.map(blog => ({
-              ...blog._doc,
-              ranking: ownTimelineRank(blog.dateSent, user.readingHours)
-            }))
-            return blogsWithHours
-          } catch (error) {
-            console.log(error)
-          }
+          const user = await User.findById(follow._user).select("readingHours")
+          const followBlogs = await Blog.find({ _user: follow._user })
+            .sort("-dateSent")
+            .limit(20)
+          // Add rank property to each of a user's blogs by using user's reading time
+          const blogsWithHours = followBlogs.map(blog => ({
+            ...blog._doc,
+            ranking: ownTimelineRank(blog.dateSent, user.readingHours)
+          }))
+          return blogsWithHours
         })
       )
+      // Flatten the array of arrays of blogs, sort by rank
       const flatSortedBlogs = followBlogsArr
         .reduce((a, b) => a.concat(b))
         .sort((a, b) => b.ranking - a.ranking)
       res.send(flatSortedBlogs)
-    } catch (error) {
-      console.log(error)
-    }
-  })
+    })
+  )
 
   /*
   *Finds the last 50 blogs written into database.
@@ -62,17 +56,21 @@ most recent blogs.
   *Adds the reading hours to each blog so that a ranking alg can determine
   their sort order.
    */
-  app.get("/api/own/trending", async (req, res) => {
-    // Convoluted parts have to do with minimizing queries to per authors
-    // instead of per blog
-    try {
+
+  app.get(
+    "/api/own/trending",
+    wrapAsync(async (req, res) => {
+      // Convoluted parts have to do with minimizing queries to per authors
+      // Instead of per blog
       const trendingBlogs = await Blog.find({})
         .sort("-dateSent")
         .limit(50)
+      // Get array of author ids
       const trendingAuthors = trendingBlogs.map(blog => blog._user.toString())
-      // get list of unique authors to find their readingHours
+      // Get list of unique author ids to find their readingHours
       const uniqAuthors = [...new Set(trendingAuthors)]
-
+      // Get their readinghours in parallel, return array of objects
+      // to make handling data later easier
       const authorHours = await Promise.all(
         uniqAuthors.map(async author => {
           const user = await User.findById(author).select("readingHours")
@@ -85,6 +83,8 @@ most recent blogs.
         acc[next._user] = next.readingHours
         return acc
       }, {})
+      // Use handler object to retreive reading hours by id, create ranking property,
+      // sort list by ranking
       const rankedTrending = trendingBlogs
         .map(blog => {
           return Object.assign({}, blog._doc, {
@@ -93,8 +93,6 @@ most recent blogs.
         })
         .sort((a, b) => b.ranking - a.ranking)
       res.send(rankedTrending)
-    } catch (error) {
-      console.log(error)
-    }
-  })
+    })
+  )
 }
