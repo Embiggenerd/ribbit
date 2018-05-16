@@ -24,9 +24,7 @@ const BlogFormReview = (props) => {
     )
   })
 
-  if(props.error.message){
-    return <Error message={props.error.message}/>
-  }
+  
   return (
     <div>
       <h5>Confirm</h5>
@@ -48,7 +46,7 @@ const BlogFormReview = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  return { formValues: state.form.blogForm.values, error: state.error }
+  return { formValues: state.form.blogForm.values }
 }
 
 export default connect(mapStateToProps, { submitBlog})(withRouter(BlogFormReview))

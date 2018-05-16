@@ -8,7 +8,7 @@ import './App.css'
 import App from './components/App'
 import reducers from './reducers'
 import axios from 'axios'
-import { logger } from './middlewear'
+import { logger } from './middleware'
 
 
 

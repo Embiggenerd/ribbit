@@ -9,7 +9,7 @@ const keys = require("../config/keys")
 // }
 
 /*
-  Passport is a middlewhere on node which modifies the request object.
+  Passport is a middlewhere which modifies the request object.
   passport.initialize and .use were invoked in root server file,
   and passport.authenticate is invoked in appropriate express.get routes.
 
@@ -19,7 +19,7 @@ const keys = require("../config/keys")
 
   This calls serializeUser, which determines which data will be stored in
   req.passport.session.user = {}, and req.passport.user = {}. This is the "session
-  on cookie" we talk about.
+  on cookie".
 
   Passport.intitalize looks for passport.user on the req object, or replaces
   it with passport.user ={} if not yet authenticated.
@@ -45,7 +45,7 @@ const keys = require("../config/keys")
   passport.use(new googleStrategy)
 */
 
-// This is how express is
+
 const User = mongoose.model("users")
 
 passport.serializeUser((user, done) => {

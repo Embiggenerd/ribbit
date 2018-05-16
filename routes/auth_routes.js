@@ -27,6 +27,13 @@ module.exports = (app) => {
   })
 
   app.get("/api/current_user", (req, res) => { // User sees his own data
+    console.log("user:",req.user)
     res.send(req.user)
   })
+
+//   app.get("/api/current_user", (req,res) => {
+//     req.session = req.session || {}
+//     req.session.user_tmp = fakeUser
+//     res.redirect('/')
+// }
 }

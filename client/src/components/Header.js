@@ -5,6 +5,7 @@ import Payments from './Payments'
 import store from '../index'
 
 class Header extends Component {
+
   renderContent(){
     switch (this.props.auth){
       case null:
@@ -33,6 +34,7 @@ class Header extends Component {
 
   render() {
     return (
+      <div>
       <nav>
         <div className="nav-wrapper">
           <Link
@@ -46,6 +48,8 @@ class Header extends Component {
           </ul>
         </div>
       </nav>
+
+      </div>
     )
   }
 }

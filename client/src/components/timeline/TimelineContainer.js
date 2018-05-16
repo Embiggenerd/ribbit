@@ -73,7 +73,6 @@ class TimelineContainer extends Component {
   }
 
   render() {
-    console.log("TimeLineContainer's props: ", this.props)
     return (
       <div>
         <button

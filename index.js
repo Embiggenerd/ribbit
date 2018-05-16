@@ -4,6 +4,7 @@ const cookieSession = require("cookie-session")
 const passport = require("passport")
 const bodyParser = require("body-parser")
 const keys = require("./config/keys")
+const fakeUser = require("./middlewares/fakeUser")
 //const { errorLogger, clientErrorHandler, errorHandler, boomHandler } =require("./middlewares/validatorMiddleware")
 require("./models/User")
 require("./services/passport")
@@ -17,6 +18,8 @@ require("./services/passport")
 mongoose.connect(keys.mongoURI)
 
 const app = express()
+
+
 
 app.use(bodyParser.json())
 
@@ -51,6 +54,15 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
   })
 }
+
+app.use((err, req, res, next) => {
+  if(err.name === "ValidationError"){
+    res.status(500).send(err.message)
+  }
+
+  next(err)
+})
+
 
 const PORT = process.env.PORT || 5000 // Heroku env variable
 

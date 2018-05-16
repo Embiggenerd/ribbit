@@ -24,7 +24,6 @@ module.exports = app => {
   app.get(
     "/api/own/timeline",
     wrapAsync(async (req, res) => {
-      console.log("ownTimeline route invoked")
       // Get user ids of those you are following
       const { following } = await User.findById(req.user.id).select("following")
       // Retreive their 20 most recent blogs, reading hours in parallel

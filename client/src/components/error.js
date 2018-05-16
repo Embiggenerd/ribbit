@@ -1,16 +1,16 @@
 import React from "react"
 
-const Error = ({ message }) => {
+const Error = ({ error: { message, data }, onClickHandler }) => {
 
-  const h = () => {
-    return {
-      _html: message.toString() || ''
-    }
+  return (
+    <div className="valign-wrapper">
+    <ul>
+      <li className="center-align"><h4 >{message}</h4></li>
+      <li className="center-align"><p >{data}</p></li>
+      <li className="center-align"><button onClick={onClickHandler}>Close</button></li>
+    </ul>
 
-  }
-
-  return(
-    <div dangerouslySetInnerHTML={h()} />
+    </div>
   )
 }
 
