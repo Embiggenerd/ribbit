@@ -13,7 +13,7 @@ required props: auth, blogs, deleteBlog, rib
 const BlogsList = ({ deleteBlog, rib, authId, blogs }) => {
   const ribButton = (blogUser, blogId) => {
     if (authId !== blogUser) {
-      return <button className= "white btn-flat" onClick={() => rib(blogId)}>RIBBIT</button>
+      return <button id="rib-button" className= "white btn-flat" onClick={() => rib(blogId)}>RIBBIT</button>
     }
   }
   const deleteButton = (blogUser, blogId) => {
@@ -50,7 +50,7 @@ const BlogsList = ({ deleteBlog, rib, authId, blogs }) => {
                 </p>
               </div>
               <div className="card-action">
-                <a>Ribs: {ribs}</a>
+                <a id="ribs-display">Ribs: {ribs}</a>
                 <Link to={{ pathname: `/blogs/${_id}` }}>Leave A Comment</Link>
                 {ribButton(_user, _id)}
                 {deleteButton(_user, _id)}
@@ -59,11 +59,8 @@ const BlogsList = ({ deleteBlog, rib, authId, blogs }) => {
           )
         )
     }
-    // console.log("state after fetchBlogs: ", store.getState())
   }
-
-  //console.log("BlogList's props: ", this.props)
-  return <div>{renderBlogs()}</div>
+  return <div id="blog-list">{renderBlogs()}</div>
 }
 
 const mapStateToProps = ({ auth }) => ({

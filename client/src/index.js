@@ -10,9 +10,9 @@ import reducers from './reducers'
 import axios from 'axios'
 import { logger } from './middleware'
 
-
-
 const store = createStore(reducers, {}, applyMiddleware(reduxThunk, logger))
+console.log("env frontend:",process.env.NODE_ENV )
+
 export default store
 window.store = store.getState()
 ReactDOM.render(

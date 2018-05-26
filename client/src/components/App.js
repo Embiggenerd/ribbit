@@ -33,7 +33,7 @@ class App extends Component {
   }
 
   render() {
-    console.log("app properrorasown...", this.props.error.hasOwnProperty("message"))
+    //console.log("app properrorasown...", this.props.error.hasOwnProperty("message"))
     return (
       <div className="container">
         <BrowserRouter>

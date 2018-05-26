@@ -4,7 +4,7 @@ const cookieSession = require("cookie-session")
 const passport = require("passport")
 const bodyParser = require("body-parser")
 const keys = require("./config/keys")
-const fakeUser = require("./middlewares/fakeUser")
+const fakeUserMW = require("./middlewares/fakeUser")
 //const { errorLogger, clientErrorHandler, errorHandler, boomHandler } =require("./middlewares/validatorMiddleware")
 require("./models/User")
 require("./services/passport")
@@ -19,9 +19,9 @@ mongoose.connect(keys.mongoURI)
 
 const app = express()
 
-
-
 app.use(bodyParser.json())
+
+app.use(fakeUserMW)
 
 app.use(
   cookieSession({
@@ -57,7 +57,8 @@ if (process.env.NODE_ENV === "production") {
 
 app.use((err, req, res, next) => {
   if(err.name === "ValidationError"){
-    res.status(500).send(err.message)
+    const fullError = res.status(500).send(err.message)
+    console.log(fullError.response)
   }
 
   next(err)

@@ -1,4 +1,4 @@
-import { FETCH_BLOGS, RIB } from "../actions/types"
+import { FETCH_BLOGS, RIB, DELETE_BLOG } from "../actions/types"
 
 export default function(state=[], action) {
   switch(action.type){
@@ -15,17 +15,16 @@ export default function(state=[], action) {
           }
 
         }
-        console.log("blogToUpdate: ",blogToUpdate)
         const updatedBlog = Object.assign({},blogToUpdate.value, {
           ribs: action.ribs
         })
-        console.log("old state: ",newState)
         newState[blogToUpdate.index] = updatedBlog
-        console.log("newState: ",newState)
         return newState
       } else {
         return state
       }
       default: return state
+    case DELETE_BLOG:
+      return state.filter(blog => blog._id !== action._id)
   }
 }

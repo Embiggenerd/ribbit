@@ -23,7 +23,8 @@ module.exports = app => {
     requireLogin,
     wrapAsync(async (req, res) => {
       const blogs = await Blogs.find({ _user: req.user.id })
-      res.send(blogs)
+      console.log("getblogz:", blogs.reverse())
+      res.send(blogs.reverse())
     })
   )
 
@@ -42,11 +43,11 @@ module.exports = app => {
     requireLogin,
     wrapAsync(async (req, res, next) => {
       // Properties on req.body sent from redux form.
-      const { title, body } = req.body
+      const { title, body, bodily } = req.body
       const { id, displayName } = req.user
       const blog = new Blogs({
         title,
-        body,
+        body: bodily,
         _user: req.user.id,
         _userDisplayName: req.user.displayName,
         dateSent: Date.now()
@@ -127,7 +128,7 @@ module.exports = app => {
     wrapAsync(async (req, res) => {
       const removedBlog = await Blogs.findByIdAndRemove(req.params.blogId)
       await Comment.remove({ _blog: removedBlog.id })
-      res.send(removedBlog)
+      res.send(removedBlog._id)
     })
   )
 

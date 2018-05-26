@@ -15,7 +15,7 @@ class BlogsList extends Component {
   }
   ribButton(blogUser, blogId) {
     if (this.props.auth._id !== blogUser) {
-      return <button onClick={this.props.rib(blogId)}>RIBBIT</button>
+      return <button id="ribbit-button" onClick={this.props.rib(blogId)}>RIBBIT</button>
     }
   }
   deleteButton(blogUser, blogId) {
@@ -53,7 +53,7 @@ class BlogsList extends Component {
               </p>
             </div>
             <div className="card-action">
-              <a>Ribs: {blog.ribs}</a>
+              <a id="ribs-display">Ribs: {blog.ribs}</a>
               <Link to={{ pathname: `/blogs/${blog._id}` }}>
                 Leave A Comment
               </Link>
@@ -66,7 +66,7 @@ class BlogsList extends Component {
   }
   render() {
     console.log("BlogList's props: ", this.props)
-    return <div>{this.renderBlogs()}</div>
+    return <div id="blog-list">{this.renderBlogs()}</div>
   }
 }
 

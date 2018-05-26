@@ -1,7 +1,7 @@
 import { ERROR } from "./actions/types"
 
 export const logger = store => next => action => {
-  if(process.env.NODE_ENV !== "production"){
+  if (process.env.NODE_ENV !== "production") {
     console.log()
     console.group(action.type)
     console.info("dispatching", action)
@@ -13,17 +13,17 @@ export const logger = store => next => action => {
   return next(action)
 }
 
-export const wrapAsync = fn => dispatch => {
+export const wrapAsync = fn => dispatch => (
   Promise.resolve(
     fn(dispatch).catch(err => {
       if (err.hasOwnProperty("response")) {
-        console.log("full error:", err)
+        console.log("full error:", JSON.stringify(err, null, 2))
         dispatch({
-          type: "error",
+          type: ERROR,
           message: err.message,
           data: err.response.data
         })
       }
     })
   )
-}
+)

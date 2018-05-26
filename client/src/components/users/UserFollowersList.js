@@ -11,7 +11,7 @@ const UserFollowersList = ({ followers }) => {
       </li>
     ))
   return (
-    <ul className="collection with-header">
+    <ul id="user-followers-list" className="collection with-header">
       <li className="collection-header">
         <h4>Followers</h4>
       </li>

@@ -9,10 +9,8 @@ import {
   getTrending,
   rib
 } from "../../actions"
-// import Timeline from "./timeline"
 import BlogList from "./BlogList"
 import CommentList from "./CommentList"
-// import TrendingList from "./TrendingList"
 
 class TimelineContainer extends Component {
   state = {
@@ -74,7 +72,7 @@ class TimelineContainer extends Component {
 
   render() {
     return (
-      <div>
+      <div id="display-options">
         <button
           onClick={() => this.onClickHandler("timeline")}
           className="waves-effect waves-light btn-large"
@@ -103,7 +101,6 @@ const mapStateToProps = ({
   ownTimeline,
   ownBlogs,
   auth: { _id },
-  ownComments,
   trending
 }) => ({
   ownTimeline,

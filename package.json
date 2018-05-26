@@ -8,13 +8,16 @@
     "npm": "5.4.2"
   },
   "scripts": {
+    "server-test": "NODE_ENV=test nodemon index.js --ignore client",
     "start": "node index.js",
-    "server": "nodemon index.js",
+    "server": "nodemon index.js --ignore client",
+    "start-test": "node index.js",
+    "client-test": "BROWSER=none npm run start-test --prefix client",
     "client": "BROWSER=none npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run webhook\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
     "webhook": "bash ./sendgrid_webhook.sh",
-    "test": "mocha --timeout 10000"
+    "testEnv": "concurrently \"npm run server-test\" \"npm run client\" \"npm run webhook\""
   },
   "author": "",
   "license": "ISC",

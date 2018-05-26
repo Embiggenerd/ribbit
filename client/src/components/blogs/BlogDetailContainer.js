@@ -41,7 +41,7 @@ class BlogDetailContainer extends Component {
   deleteButton(blogUser, blogId, history) {
     if (this.props.auth._id === blogUser)
       return (
-        <button onClick={() => this.props.deleteBlog(blogId, history)}>Delete</button>
+        <button id="delete-blog" onClick={() => this.props.deleteBlog(blogId, history)}>Delete</button>
       )
   }
   componentDidMount() {

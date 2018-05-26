@@ -28,7 +28,7 @@ export default combineReducers({
       }
     }
   }),
-  blogs: blogsReducer,
+//  blogs: blogsReducer,
   blogDetail: blogDetailReducer,
   commentsList: commentsReducer,
   // user: userReducer,

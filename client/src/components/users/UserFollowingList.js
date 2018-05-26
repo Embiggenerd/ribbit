@@ -17,7 +17,7 @@ const UserFollowingList = ({ following }) => {
   }
 
   return (
-    <ul className="collection with-header">
+    <ul id="user-following-list" className="collection with-header">
       <li className="collection-header">
         <h4>Following</h4>
       </li>

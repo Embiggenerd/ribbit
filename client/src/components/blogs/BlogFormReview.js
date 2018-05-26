@@ -24,9 +24,9 @@ const BlogFormReview = (props) => {
     )
   })
 
-  
+
   return (
-    <div>
+    <div id="confirm-div">
       <h5>Confirm</h5>
         {reviewFields}
       <button
