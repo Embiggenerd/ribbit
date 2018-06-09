@@ -12,13 +12,29 @@ import {
 import BlogList from "./BlogList"
 import CommentList from "./CommentList"
 
-class TimelineContainer extends Component {
-  state = {
-    showType: "timeline"
+export class TimelineContainer extends Component {
+  constructor(){
+    super()
+    this.state={
+          showType: "timeline"
+    }
+    this.handlers = {
+    // "timeline": value => <BlogList blogs={value}/>,
+      bloglist: value => (
+        <BlogList
+          rib={this.props.rib}
+          deleteBlog={this.props.deleteBlog}
+          blogs={value}
+          authId={this.props._id}
+        />
+      ),
+      commentList: value => (
+        <CommentList deleteComment={this.props.deleteComment} comments={value} />
+    )
+  }
   }
 
   componentDidMount() {
-    console.log("TimelineContiner did mount")
     this.props.fetchOwnTimeline()
   }
 
@@ -36,20 +52,6 @@ class TimelineContainer extends Component {
     }
   }
 
-  handlers = {
-    // "timeline": value => <BlogList blogs={value}/>,
-    bloglist: value => (
-      <BlogList
-        rib={this.props.rib}
-        deleteBlog={this.props.deleteBlog}
-        blogs={value}
-        authId={this.props._id}
-      />
-    ),
-    commentList: value => (
-      <CommentList deleteComment={this.props.deleteComment} comments={value} />
-    )
-  }
 
   displayData(type, value) {
     const handler = this.handlers[type]
@@ -74,18 +76,21 @@ class TimelineContainer extends Component {
     return (
       <div id="display-options">
         <button
+          id="display-timeline"
           onClick={() => this.onClickHandler("timeline")}
           className="waves-effect waves-light btn-large"
         >
           Timeline
         </button>
         <button
+          id="display-ownBlogs"
           onClick={() => this.onClickHandler("bloglist")}
           className="waves-effect waves-light btn-large"
         >
           Blogs
         </button>
         <button
+          id="display-trending"
           onClick={() => this.onClickHandler("trending")}
           className="waves-effect waves-light btn-large"
         >

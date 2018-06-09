@@ -25,11 +25,8 @@ const customStyles = {
 };
 
 class App extends Component {
-  componentDidMount() {
+  componentDidMount(props) {
     this.props.fetchUser()
-    this.state = {
-      showModal: false
-    }
   }
 
   render() {

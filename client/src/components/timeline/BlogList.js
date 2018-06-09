@@ -10,7 +10,7 @@ Simply fetches our current list of blogs by user from DB
 required props: auth, blogs, deleteBlog, rib
 */
 
-const BlogsList = ({ deleteBlog, rib, authId, blogs }) => {
+export const BlogsList = ({ deleteBlog, rib, authId, blogs }) => {
   const ribButton = (blogUser, blogId) => {
     if (authId !== blogUser) {
       return <button id="rib-button" className= "white btn-flat" onClick={() => rib(blogId)}>RIBBIT</button>

@@ -6,12 +6,8 @@ import { fetchOwnFollow, fetchBlogs, rib, deleteBlog } from "../actions/index"
 import UserFollowingList from "./users/UserFollowingList"
 import UserFollowersList from "./users/UserFollowersList"
 import AddBlogButton from "./buttons/addBlogButton"
-/*
-* This component does the displaying for SurveysList, and also renderSurveys
-the add button that links to /surveys/new
-*/
 
-class Dashboard extends Component {
+export class Dashboard extends Component {
   componentDidMount() {
     this.props.fetchBlogs()
     this.props.fetchOwnFollow()

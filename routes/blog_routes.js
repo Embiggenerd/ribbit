@@ -23,7 +23,6 @@ module.exports = app => {
     requireLogin,
     wrapAsync(async (req, res) => {
       const blogs = await Blogs.find({ _user: req.user.id })
-      console.log("getblogz:", blogs.reverse())
       res.send(blogs.reverse())
     })
   )
@@ -43,11 +42,11 @@ module.exports = app => {
     requireLogin,
     wrapAsync(async (req, res, next) => {
       // Properties on req.body sent from redux form.
-      const { title, body, bodily } = req.body
+      const { title, body } = req.body
       const { id, displayName } = req.user
       const blog = new Blogs({
         title,
-        body: bodily,
+        body,
         _user: req.user.id,
         _userDisplayName: req.user.displayName,
         dateSent: Date.now()

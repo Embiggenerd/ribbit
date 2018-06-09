@@ -5,6 +5,7 @@ import configureMockStore from "redux-mock-store"
 import getBlogsMock from "../mocks/getBlogsMock"
 import moxios from "moxios"
 import ownBlogsReducer from "../src/reducers/ownBlogsReducer"
+import getBlogsErrorMock from '../mocks/getBlogsErrorMock'
 
 const middlewares = [thunk]
 
@@ -19,7 +20,6 @@ describe("getBlogs action", () => {
   })
 
   it("dispatches proper list", () => {
-    console.log("getBlogsMock.data", JSON.stringify(getBlogsMock.data))
     moxios.wait(() => {
       const request = moxios.requests.mostRecent()
       request.respondWith({
@@ -32,6 +32,26 @@ describe("getBlogs action", () => {
       payload: getBlogsMock.data
     }]
     const store = mockStore({ownBlogs:[]})
+
+    return store.dispatch(actions.fetchBlogs()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions)
+    })
+  })
+
+  it("returns error when response has error message", () => {
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent()
+      request.respondWith({
+        status: 500,
+        response: JSON.stringify(getBlogsErrorMock.response.data)
+      })
+    })
+    const expectedActions = [{
+      type: types.ERROR,
+      message: getBlogsErrorMock.message,
+      data: getBlogsErrorMock.response.data
+    }]
+    const store = mockStore({error:{}})
 
     return store.dispatch(actions.fetchBlogs()).then(() => {
       expect(store.getActions()).toEqual(expectedActions)

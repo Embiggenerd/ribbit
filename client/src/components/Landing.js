@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import TimelineContainer from "./timeline/TimelineContainer.js"
 import AddBlogButton from './buttons/addBlogButton'
 
-class Landing extends Component {
+export class Landing extends Component {
   render() {
     switch (this.props.auth) {
       case null:

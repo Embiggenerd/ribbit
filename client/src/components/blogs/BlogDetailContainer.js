@@ -12,9 +12,9 @@ import {
 import { updateReadingHours } from "../../actions/apiCalls"
 import CommentForm from "./CommentForm"
 import CommentsList from "./CommentsList"
-import scrollToElement from "scroll-to-element"
 import ribButton from "../buttons/ribButton"
 import { withRouter } from 'react-router-dom'
+import scrollToElement from 'scroll-to-element'
 
 
 class BlogDetailContainer extends Component {

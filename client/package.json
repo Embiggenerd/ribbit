@@ -10,6 +10,15 @@
       "target": "http://localhost:5000"
     }
   },
+  "jest": {
+    "roots": ["<rootDir>/__tests__"],
+    "setupTestFrameworkScriptFile": "<rootDir>/setupJest.js",
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/mocks/cssMock.js",
+      "\\.(css|less)$": "<rootDir>/mocks/cssMock.js",
+      "^tween$": "<rootDir>/mocks/tweenMock.js"
+    }
+  },
   "dependencies": {
     "axios": "^0.18.0",
     "decimal": "0.0.2",
@@ -34,6 +43,7 @@
   },
   "devDependencies": {
     "babel-jest": "^22.4.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "chai": "^4.1.2",

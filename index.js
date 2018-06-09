@@ -56,9 +56,9 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.use((err, req, res, next) => {
-  if(err.name === "ValidationError"){
+  if(err.name){
     const fullError = res.status(500).send(err.message)
-    console.log(fullError.response)
+    console.log("fullerror on backend:",fullError.response)
   }
 
   next(err)

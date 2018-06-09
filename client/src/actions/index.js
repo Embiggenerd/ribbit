@@ -52,7 +52,7 @@ export const fetchBlogDetail = blogId =>
 export const fetchBlogs = () =>
   wrapAsync(async dispatch => {
     const res = await axios.get("/api/blogs")
-    //console.log("fetchBlogs:", JSON.stringify(res.data, null, 2))
+    // console.log("fetchBlogs invoked:", JSON.stringify(res.data, null, 2))
 
     dispatch({ type: FETCH_BLOGS, payload: res.data })
   })
