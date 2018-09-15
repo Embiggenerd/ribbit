@@ -10,7 +10,7 @@ module.exports = app => {
   // when we passed mongoose.model object 'user' to our google Strategy
   // authorization funciton in /services/passport.js.
   app.post("/api/stripe", requireLogin, wrapAsync(async (req, res) => {
-
+    console.log('billing routes: req.body.id', req.body.id)
     const charge = await stripe.charges.create({
       amount: 500,
       currency: "usd",
