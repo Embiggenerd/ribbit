@@ -43,7 +43,7 @@ module.exports = app => {
       )
       // Flatten the array of arrays of blogs, sort by rank
       const flatSortedBlogs = followBlogsArr
-        .reduce((a, b) => a.concat(b))
+        .reduce((a, b) => a.concat(b), [])
         .sort((a, b) => b.ranking - a.ranking)
       res.send(flatSortedBlogs)
     })
