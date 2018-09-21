@@ -37,7 +37,7 @@ class App extends Component {
           <div className="container">
             <Header />
             <Modal
-              isOpen={this.props.error.message}
+              isOpen={Boolean(this.props.error.message)}
               style={customStyles}
               contentLabel="Error"
             >

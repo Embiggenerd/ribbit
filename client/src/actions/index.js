@@ -139,6 +139,7 @@ export const fetchOwnFollow = () =>
 export const fetchOwnTimeline = () =>
   wrapAsync(async dispatch => {
     const res = await axios.get('/api/own/timeline');
+    // console.log(' fetchOwnTimeline', res.data);
     dispatch({
       type: OWN_TIMELINE,
       timeline: res.data
@@ -148,12 +149,13 @@ export const fetchOwnTimeline = () =>
 export const rib = blogId =>
   wrapAsync(async dispatch => {
     const res = await axios.post(`/api/blogs/${blogId}/rib`);
-    const { ribs, _id, credits } = res.data;
+    const { ribs, _id, credits, ranking } = res.data;
     dispatch({
       type: RIB,
       ribs,
       _id,
-      credits
+      credits,
+      ranking
     });
   });
 

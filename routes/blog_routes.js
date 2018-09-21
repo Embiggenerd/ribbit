@@ -139,14 +139,18 @@ module.exports = app => {
       const user = req.user;
       user.credits -= 1;
       const { _id } = req.params;
-      const blog = await Blogs.findById(_id).select('ribs');
+      const blog = await Blogs.findById(_id).select('ribs ranking');
       blog.ribs += 1;
       const updatedUser = await user.save();
       const updatedBlog = await blog.save();
+      console.log('updatedBlog', updatedBlog);
+      console.log('updatedUser', updatedUser);
+
       res.send({
         ribs: updatedBlog.ribs,
         _id,
-        credits: updatedUser.credits
+        credits: updatedUser.credits,
+        ranking: blog.ranking
       });
     })
   );
