@@ -1,0 +1,15 @@
+1) error handling: not enough credits crashes app --OK
+
+2) pressing follow button on user's homepage adds the followee name to followee's followers list
+  [figure out backend mess]
+
+3) ribbits do not affect order of items in timeline as supposed 
+  [sorting should be done on front end, pass rank as prop]
+
+how to sort posts on front end: normalize by ribbits:
+1/n is most rated, 2/n is second most etc, where n is total
+posts. sort array, use by ribbits, use posts index+1.
+
+timeline mount does not put posts in order
+first rib works to change to intended order,
+subsequent ribs do not. Redo whole system

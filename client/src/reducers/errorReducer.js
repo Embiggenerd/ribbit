@@ -1,15 +1,15 @@
-import { CLEAR_ERROR, ERROR } from "../actions/types"
+import { CLEAR_ERROR, ERROR } from '../actions/types';
 
-export default function(state = {}, action) {
+export default function(state = { message: '', data: { error: '' } }, action) {
   switch (action.type) {
     case ERROR:
       return Object.assign({}, state, {
         message: action.message,
         data: action.data
-      })
+      });
     case CLEAR_ERROR:
-      return {}
+      return { message: '', data: { error: '' } };
     default:
-      return state
+      return state;
   }
 }

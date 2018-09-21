@@ -1,5 +1,5 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   fetchUserBlogs,
   fetchUserComments,
@@ -8,13 +8,13 @@ import {
   toFollow,
   toUnfollow,
   putOver
-} from "../../actions"
-import UserBlogsList from "./UserBlogsList"
-import UserCommentsList from "./UserCommentsList"
-import UserFollowersList from "./UserFollowersList"
-import UserFollowingList from "./UserFollowingList"
-import FollowUserButton from "./FollowUserButton"
-import PutOverButton from "./PutOverButton"
+} from '../../actions';
+import UserBlogsList from './UserBlogsList';
+import UserCommentsList from './UserCommentsList';
+import UserFollowersList from './UserFollowersList';
+import UserFollowingList from './UserFollowingList';
+import FollowUserButton from './FollowUserButton';
+import PutOverButton from './PutOverButton';
 
 class UserContainer extends Component {
   // This component works because it is passed a unique key in its container.
@@ -22,17 +22,17 @@ class UserContainer extends Component {
   // componentDidMount are not invoked when you click a link to a differnet usercontainer
   // in any of the lists.
   componentDidMount() {
-    console.log("usercontainer mounted")
-    this.props.fetchUserBlogs(this.props.match.params._id)
-    this.props.fetchUserComments(this.props.match.params._id)
-    this.props.fetchUserFollowers(this.props.match.params._id)
-    this.props.fetchUserFollowing(this.props.match.params._id)
+    // console.log("usercontainer mounted")
+    this.props.fetchUserBlogs(this.props.match.params._id);
+    this.props.fetchUserComments(this.props.match.params._id);
+    this.props.fetchUserFollowers(this.props.match.params._id);
+    this.props.fetchUserFollowing(this.props.match.params._id);
   }
 
   render() {
     switch (this.props.auth) {
       case null:
-        return <div>Checking credentials:</div>
+        return <div>Checking credentials:</div>;
       default:
         return (
           <div>
@@ -57,7 +57,7 @@ class UserContainer extends Component {
               <UserCommentsList comments={this.props.commentsList} />
             </div>
           </div>
-        )
+        );
     }
   }
 }
@@ -75,14 +75,17 @@ const mapStateToProps = ({
     userFollowers,
     userFollowing,
     auth
+  };
+};
+export default connect(
+  mapStateToProps,
+  {
+    fetchUserBlogs,
+    fetchUserComments,
+    fetchUserFollowers,
+    fetchUserFollowing,
+    toFollow,
+    toUnfollow,
+    putOver
   }
-}
-export default connect(mapStateToProps, {
-  fetchUserBlogs,
-  fetchUserComments,
-  fetchUserFollowers,
-  fetchUserFollowing,
-  toFollow,
-  toUnfollow,
-  putOver
-})(UserContainer)
+)(UserContainer);

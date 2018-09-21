@@ -1,32 +1,32 @@
-import React, { Component } from "react"
-import { BrowserRouter, Route, Switch } from "react-router-dom"
-import { connect } from "react-redux"
-import * as actions from "../actions"
-import Landing from "./Landing"
-import Dashboard from "./dashboard"
-import BlogNew from "./blogs/BlogNew"
-import BlogDetailContainer from "./blogs/BlogDetailContainer"
-import UserContainer from "./users/UserContainer"
-import Header from "./Header"
-import ErrorData from "./error"
+import React, { Component } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
+import Landing from './Landing';
+import Dashboard from './dashboard';
+import BlogNew from './blogs/BlogNew';
+import BlogDetailContainer from './blogs/BlogDetailContainer';
+import UserContainer from './users/UserContainer';
+import Header from './Header';
+import ErrorData from './error';
 import Modal from 'react-modal';
 
-Modal.setAppElement('body')
+Modal.setAppElement('body');
 
 const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)'
   }
 };
 
 class App extends Component {
   componentDidMount(props) {
-    this.props.fetchUser()
+    this.props.fetchUser();
   }
 
   render() {
@@ -35,14 +35,17 @@ class App extends Component {
       <div className="container">
         <BrowserRouter>
           <div className="container">
-
             <Header />
             <Modal
-              isOpen={this.props.error.hasOwnProperty('message')}
+              isOpen={this.props.error.message}
               style={customStyles}
               contentLabel="Error"
             >
-              <ErrorData onClickHandler={this.props.clearError} error={this.props.error} />
+              <ErrorData
+                onClickHandler={this.props.clearError}
+                error={this.props.error.data.error}
+                message={this.props.error.message}
+              />
             </Modal>
             <Route exact path="/" component={Landing} />
             <Route exact path="/dashboard" component={Dashboard} />
@@ -64,11 +67,14 @@ class App extends Component {
           </div>
         </BrowserRouter>
       </div>
-    )
+    );
   }
 }
-const mapStateToProps = ({error}) => ({
+const mapStateToProps = ({ error }) => ({
   error
-})
+});
 
-export default connect(mapStateToProps, actions)(App)
+export default connect(
+  mapStateToProps,
+  actions
+)(App);
