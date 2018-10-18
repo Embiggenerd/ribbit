@@ -1,9 +1,9 @@
-import React from "react"
-import { connect } from "react-redux"
-import { fetchBlogs, deleteBlog, rib } from "../../actions"
-import { Link } from "react-router-dom"
-import store from "../../index"
-import _ from "lodash"
+import React from 'react';
+import { connect } from 'react-redux';
+import { fetchBlogs, deleteBlog, rib } from '../../actions';
+import { Link } from 'react-router-dom';
+import store from '../../index';
+import _ from 'lodash';
 
 /*
 Simply fetches our current list of blogs by user from DB
@@ -13,24 +13,39 @@ required props: auth, blogs, deleteBlog, rib
 export const BlogsList = ({ deleteBlog, rib, authId, blogs }) => {
   const ribButton = (blogUser, blogId) => {
     if (authId !== blogUser) {
-      return <button id="rib-button" className= "white btn-flat" onClick={() => rib(blogId)}>RIBBIT</button>
+      return (
+        <button
+          id="rib-button"
+          className="white btn-flat"
+          onClick={() => rib(blogId)}
+        >
+          RIBBIT
+        </button>
+      );
     }
-  }
+  };
   const deleteButton = (blogUser, blogId) => {
     if (authId === blogUser)
-      return <button className= "red btn-flat white-text" onClick={() => deleteBlog(blogId)}>Delete</button>
-  }
+      return (
+        <button
+          className="red btn-flat white-text"
+          onClick={() => deleteBlog(blogId)}
+        >
+          Delete
+        </button>
+      );
+  };
 
   const renderBlogs = () => {
     //console.log(this.props.auth)
     switch (authId) {
       case null:
-        return <div>Checking credentials...</div>
+        return <div>Checking credentials...</div>;
       default:
         return _.map(
           blogs,
           ({ _id, title, body, _userDisplayName, dateSent, ribs, _user }) => (
-            <div key={_id} className="card blue-grey darken-1 yellow-text">
+            <div key={_id} className="card blue-grey  yellow-text">
               <div className="card-content">
                 <Link
                   to={{
@@ -57,14 +72,14 @@ export const BlogsList = ({ deleteBlog, rib, authId, blogs }) => {
               </div>
             </div>
           )
-        )
+        );
     }
-  }
-  return <div id="blog-list">{renderBlogs()}</div>
-}
+  };
+  return <div id="blog-list">{renderBlogs()}</div>;
+};
 
 const mapStateToProps = ({ auth }) => ({
   auth
-})
+});
 
-export default connect(mapStateToProps)(BlogsList)
+export default connect(mapStateToProps)(BlogsList);

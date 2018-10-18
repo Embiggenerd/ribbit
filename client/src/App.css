@@ -2,14 +2,98 @@
   width: 85%;
 }
 
+.nav-wrapper {
+  background-color: #ccffcc;
+  border: solid 2px #00e500;
+}
+
+.btn,
+.btn-large {
+  /* background-color: #ffa5d2; */
+  background-color: rgb(120, 102, 255);
+  margin: 1px;
+  font-size: 1.2rem;
+}
+
+.btn:focus,
+.btn-large:focus {
+  background-color: #5151cc;
+}
+
+.btn:hover,
+.btn-large:hover {
+  background-color: #8484ff;
+}
+
+.collection.with-header .collection-header {
+  background-color: #ccffcc;
+  color: #004c00;
+  border: solid 2px #00ff00;
+}
+
+/* #user-following-list {
+  background-color: #ccffcc;
+} */
+
+.btn-floating {
+  margin-right: 50px;
+  margin-bottom: 50px;
+}
+
+nav .brand-logo {
+  margin-left: 5%;
+  color: #004c00;
+  font-size: 2.6rem;
+}
+
+nav ul li {
+  color: #004c00;
+  font-size: 1.2rem;
+}
+
+nav ul a {
+  color: #004c00;
+  font-size: 1.2rem;
+}
+
+li > h4 {
+  font-size: 1.5rem;
+}
+
+.card .card-action,
+.card .card-content {
+  /* background-color: #ccffcc; */
+  background-color: #dbffdb;
+  color: black;
+}
+
+.card-title,
+p.left {
+  color: black;
+}
+
+.card {
+  border: solid 2px #00ff00;
+}
+
+.blue-grey {
+  background-color: green;
+}
+
+body {
+  background-color: #fff0f7;
+  font-size: 1.2rem;
+}
+
 #body {
   height: 200px;
 }
 
-.input-field label{
+.input-field label {
   pointer-events: all !important;
 }
-form#blogForm > *{
+
+form#blogForm > * {
   margin-bottom: 20px;
 }
 
@@ -19,4 +103,15 @@ form#blogForm > *{
 
 ul#headerUl li {
   margin-left: 15px;
+}
+ul.with-header {
+  background-color: rgb(204, 255, 204);
+  border: solid 2px #00ff00;
+}
+li.collection-item {
+  border: solid 2px rgb(204, 255, 204);
+}
+
+li.header > h4 {
+  color: #004c00;
 }

@@ -1,15 +1,10 @@
-import _ from "lodash"
-import React, { Component } from "react"
-import { reduxForm, Field } from "redux-form"
-import { Link } from "react-router-dom"
-import { connect } from "react-redux"
-import validateEmails from "../../utils/validateEmails"
-import formFields from "./formFields"
-import BlogField from "./BlogField"
-import { submitComment } from "../../actions"
+import React, { Component } from 'react';
+import { reduxForm, Field } from 'redux-form';
+import { connect } from 'react-redux';
+import { submitComment } from '../../actions';
 
 let CommentForm = props => {
-  const { handleSubmit, submitComment, formz, blogId } = props
+  const { handleSubmit, submitComment, formz, blogId } = props;
   return (
     <div>
       <p>Leave a comment: </p>
@@ -18,31 +13,52 @@ let CommentForm = props => {
           submitComment(formz.commentForm.values.text, blogId)
         )}
       >
-        <Field component="textarea" type="text" name="text" value="" />
+        <Field
+          component="textarea"
+          type="text"
+          name="text"
+          value=""
+          validation="required"
+        />
         <button type="submit" className="teal btn-flat right white-text">
           Submit
         </button>
       </form>
     </div>
-  )
+  );
+};
+
+function validate(values) {
+  const errors = {};
+
+  if (!values.title) {
+    errors.title = 'Required!';
+  }
+  if (!values.body) {
+    errors.body = 'Required!';
+  }
+  return errors;
 }
 
 function validate(values) {
-  const errors = {}
+  const errors = {};
 
   if (!values.text) {
-    errors.text = "Required!"
+    errors.text = 'Required!';
   }
-  return errors
+  return errors;
 }
 
 CommentForm = reduxForm({
   validate,
-  form: "commentForm"
-})(CommentForm)
+  form: 'commentForm'
+})(CommentForm);
 
 const mapStateToProps = ({ form }) => ({
   formz: form
-})
+});
 
-export default connect(mapStateToProps, { submitComment })(CommentForm)
+export default connect(
+  mapStateToProps,
+  { submitComment }
+)(CommentForm);
