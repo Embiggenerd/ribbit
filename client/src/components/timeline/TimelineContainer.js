@@ -19,7 +19,6 @@ export class TimelineContainer extends Component {
       showType: 'timeline'
     };
     this.handlers = {
-      // "timeline": value => <BlogList blogs={value}/>,
       bloglist: value => (
         <BlogList
           rib={this.props.rib}
@@ -40,26 +39,18 @@ export class TimelineContainer extends Component {
   componentDidMount() {
     this.props.fetchOwnTimeline();
   }
-  // componentDidUpdate(prevState, prevProps) {
-  //   // this.props.ownTimeline = this.props.ownTimeline.sort(
-  //   //   (a, b) => b.ranking - a.ranking
-  //   // );
-  //   // this.props.fetchOwnTimeline();
-  // }
+ 
 
   onClickHandler(showType) {
     this.setState({ showType });
     switch (showType) {
       case 'bloglist':
-        // return this.props.ownBlogs.length === 0 && this.props.fetchBlogs();
         return this.props.fetchBlogs();
 
       case 'timeline':
-        // return this.props.ownTimeline.length === 0 && this.props.fetchOwnTimeline()
         return this.props.fetchOwnTimeline();
 
       case 'trending':
-        // return this.props.trending.length === 0 && this.props.getTrending();
         return this.props.getTrending();
       default:
         return;
@@ -87,28 +78,31 @@ export class TimelineContainer extends Component {
 
   render() {
     return (
-      <div id="display-options">
-        <button
-          id="display-timeline"
-          onClick={() => this.onClickHandler('timeline')}
-          className="waves-effect waves-light btn-large"
-        >
-          Timeline
-        </button>
-        <button
-          id="display-ownBlogs"
-          onClick={() => this.onClickHandler('bloglist')}
-          className="waves-effect waves-light btn-large"
-        >
-          Blogs
-        </button>
-        <button
-          id="display-trending"
-          onClick={() => this.onClickHandler('trending')}
-          className="waves-effect waves-light btn-large"
-        >
-          Trending
-        </button>
+      <div>
+        <div id="display-options">
+          <button
+            autoFocus
+            id="display-timeline"
+            onClick={() => this.onClickHandler('timeline')}
+            className="waves-effect waves-light btn-large options-btn"
+          >
+            Timeline
+          </button>
+          <button
+            id="display-ownBlogs"
+            onClick={() => this.onClickHandler('bloglist')}
+            className="waves-effect waves-light btn-large options-btn"
+          >
+            Blogs
+          </button>
+          <button
+            id="display-trending"
+            onClick={() => this.onClickHandler('trending')}
+            className="waves-effect waves-light btn-large options-btn"
+          >
+            Trending
+          </button>
+        </div>
         {this.renderShow()}
       </div>
     );

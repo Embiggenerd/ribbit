@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Error = ({ error, onClickHandler, message }) => {
-  // const { message, data } = error;
 
   return (
     <div className="valign-wrapper">

@@ -1,8 +1,5 @@
 import React from 'react'
-import store from '../../index'
 import { Link } from 'react-router-dom'
-// import _ from 'lodash'
-//import store from "../../index"
 
 const CommentsList = (props) => {
   const deleteButton = (commentId, commentIndex) => {
@@ -11,7 +8,6 @@ const CommentsList = (props) => {
     }
   }
   const renderList = () => {
-    // console.log("globalState: ",store.getState())
     switch(props.auth) {
       case null:
         return <div>Checking credentials....</div>

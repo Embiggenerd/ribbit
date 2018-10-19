@@ -10,12 +10,6 @@ export default function(state = [], action) {
     case TO_FOLLOW:
       return [action.follower, ...state];
     case TO_UNFOLLOW:
-      // console.log('toUnfollow called in userfollowersreducer');
-      // console.log(
-      //   'type of unfollow:',
-      //   typeof action.follower._user,
-      //   typeof action.unfollower._id
-      // );
       return state.filter(follower => {
         return follower._user != action.unfollower._id;
       });

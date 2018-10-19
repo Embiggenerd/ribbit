@@ -11,7 +11,6 @@ export default (state = [], action) => {
 
     case RIB:
       if (Object.keys(state).length !== 0) {
-        // const newState = updateRibbed(state, action);
         return updateRibbed(state, action).sort(
           (a, b) => b.ranking - a.ranking
         );

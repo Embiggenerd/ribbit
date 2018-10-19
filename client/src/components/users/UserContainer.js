@@ -22,7 +22,6 @@ class UserContainer extends Component {
   // componentDidMount are not invoked when you click a link to a differnet usercontainer
   // in any of the lists.
   componentDidMount() {
-    // console.log("usercontainer mounted")
     this.props.fetchUserBlogs(this.props.match.params._id);
     this.props.fetchUserComments(this.props.match.params._id);
     this.props.fetchUserFollowers(this.props.match.params._id);
@@ -36,7 +35,7 @@ class UserContainer extends Component {
       default:
         return (
           <div>
-            <div>
+            <div className="user-options">
               <FollowUserButton
                 auth={this.props.auth}
                 _user={this.props.match.params._id}

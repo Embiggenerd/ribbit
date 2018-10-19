@@ -139,7 +139,6 @@ export const fetchOwnFollow = () =>
 export const fetchOwnTimeline = () =>
   wrapAsync(async dispatch => {
     const res = await axios.get('/api/own/timeline');
-    // console.log(' fetchOwnTimeline', res.data);
     dispatch({
       type: OWN_TIMELINE,
       timeline: res.data

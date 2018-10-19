@@ -21,7 +21,6 @@ export const wrapAsync = fn => dispatch =>
   Promise.resolve(
     fn(dispatch).catch(err => {
       if (err.hasOwnProperty('response')) {
-        //console.log("full error:", JSON.stringify(err.response, null, 2))
         dispatch({
           type: ERROR,
           message: err.message,

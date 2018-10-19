@@ -1,18 +1,18 @@
-import React from "react"
+import React from 'react';
 
 const PutOverButton = ({ onClickPutOverHandler, authId, _user }) => {
   if (authId && _user !== authId) {
     return (
       <button
-        className="teal btn-flat white-text"
+        className="teal btn-flat white-text user-options-button"
         onClick={() => onClickPutOverHandler(_user)}
       >
         Put&apos;m Over
       </button>
-    )
+    );
   } else {
-    return null
+    return null;
   }
-}
+};
 
-export default PutOverButton
+export default PutOverButton;

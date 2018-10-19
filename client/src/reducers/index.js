@@ -1,9 +1,8 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import authReducer from './authReducer';
-import blogsReducer from './blogsReducer';
 import blogDetailReducer from './blogDetailReducer';
-import { FETCH_COMMENTS, SUBMIT_COMMENT } from '../actions/types';
+import { SUBMIT_COMMENT } from '../actions/types';
 import commentsReducer from './commentsReducer';
 import userFollowingReducer from './userFollowingReducer';
 import userFollowersReducer from './userFollowersReducer';
@@ -26,11 +25,8 @@ export default combineReducers({
       }
     }
   }),
-  //  blogs: blogsReducer,
   blogDetail: blogDetailReducer,
   commentsList: commentsReducer,
-  // user: userReducer,
-  // own: ownReducer,
   ownFollowers: ownFollowersReducer,
   ownFollowing: ownFollowingReducer,
   ownBlogs: ownBlogsReducer,
@@ -40,11 +36,3 @@ export default combineReducers({
   userFollowing: userFollowingReducer,
   error: errorReducer
 });
-// export default combineReducers({
-//   auth: authReducer,
-//   form: formReducer,
-//   surveys: surveysReducer,
-//   blogs: blogsReducer,
-//   blogDetail: blogDetailReducer,
-//   commentsList: commentsReducer
-// })

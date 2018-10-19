@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react';
 
 const FollowUserButton = ({
   onClickUnfollowHandler,
@@ -7,19 +7,19 @@ const FollowUserButton = ({
   followers,
   _user
 }) => {
-  const followerIds = []
+  const followerIds = [];
   for (let follower of followers) {
-    followerIds.push(follower._user)
+    followerIds.push(follower._user);
   }
   if (followerIds.indexOf(auth._id) > -1) {
     return (
       <button
-        className="teal btn-flat white-text"
+        className="teal btn-flat white-text user-options-button"
         onClick={() => onClickUnfollowHandler(_user)}
       >
         Unfollow
       </button>
-    )
+    );
   } else {
     return (
       <button
@@ -28,8 +28,8 @@ const FollowUserButton = ({
       >
         Follow
       </button>
-    )
+    );
   }
-}
+};
 
-export default FollowUserButton
+export default FollowUserButton;

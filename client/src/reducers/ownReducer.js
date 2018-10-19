@@ -4,8 +4,6 @@ import ownTimelineReducer from "./ownTimelineReducer"
 import ownCommentsReducer from "./ownCommentsReducer"
 import ownBlogsReducer from "./ownBlogsReducer"
 
-//import { TO_FOLLOW, TO_UNFOLLOW } from "../actions/types"
-
 export default function(state={}, action) {
   return {
     comments: ownCommentsReducer(state=[], action),

@@ -1,3 +1,9 @@
+body {
+  background-color: #fff0f7;
+  font-size: 1.2rem;
+  min-width: 1020px;
+}
+
 .container {
   width: 85%;
 }
@@ -5,6 +11,15 @@
 .nav-wrapper {
   background-color: #ccffcc;
   border: solid 2px #00e500;
+}
+
+.user-options {
+  display: flex;
+  width: 100%;
+}
+
+.user-options-button {
+  display: flex;
 }
 
 .btn,
@@ -17,12 +32,17 @@
 
 .btn:focus,
 .btn-large:focus {
-  background-color: #5151cc;
+  background-color: rgb(81, 63, 214);
 }
 
 .btn:hover,
 .btn-large:hover {
   background-color: #8484ff;
+}
+
+.btn:selection,
+.btn-large:selection {
+  background-color: yellow;
 }
 
 .collection.with-header .collection-header {
@@ -80,11 +100,6 @@ p.left {
   background-color: green;
 }
 
-body {
-  background-color: #fff0f7;
-  font-size: 1.2rem;
-}
-
 #body {
   height: 200px;
 }
@@ -99,6 +114,17 @@ form#blogForm > * {
 
 .red-text {
   margin-bottom: 20px;
+}
+
+#display-options {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: start;
+}
+
+.options-btn {
+  display: flex;
 }
 
 ul#headerUl li {

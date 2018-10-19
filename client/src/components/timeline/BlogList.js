@@ -37,7 +37,6 @@ export const BlogsList = ({ deleteBlog, rib, authId, blogs }) => {
   };
 
   const renderBlogs = () => {
-    //console.log(this.props.auth)
     switch (authId) {
       case null:
         return <div>Checking credentials...</div>;
