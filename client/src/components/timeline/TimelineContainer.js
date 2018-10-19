@@ -51,13 +51,16 @@ export class TimelineContainer extends Component {
     this.setState({ showType });
     switch (showType) {
       case 'bloglist':
-        return this.props.ownBlogs.length === 0 && this.props.fetchBlogs();
+        // return this.props.ownBlogs.length === 0 && this.props.fetchBlogs();
+        return this.props.fetchBlogs();
+
       case 'timeline':
-        return (
-          this.props.ownTimeline.length === 0 && this.props.fetchOwnTimeline()
-        );
+        // return this.props.ownTimeline.length === 0 && this.props.fetchOwnTimeline()
+        return this.props.fetchOwnTimeline();
+
       case 'trending':
-        return this.props.trending.length === 0 && this.props.getTrending();
+        // return this.props.trending.length === 0 && this.props.getTrending();
+        return this.props.getTrending();
       default:
         return;
     }
