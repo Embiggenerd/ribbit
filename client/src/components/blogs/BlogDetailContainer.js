@@ -106,7 +106,7 @@ class BlogDetailContainer extends Component {
   render() {
     console.log("BlogDetailContainer's props object ", this.props);
     return (
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div className="blog-detail">
         {this.renderDetail()}
         <CommentForm blogId={this.props.match.params._id} />
         <CommentsList

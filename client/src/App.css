@@ -1,14 +1,22 @@
 body {
   background-color: #fff0f7;
   font-size: 1.2rem;
-  min-width: 1020px;
+  min-width: 1100px;
 }
 
 .container {
   width: 85%;
 }
 
+div.blog-detail {
+  display: flex;
+  flex-direction: column;
+  min-width: 80%;
+  /* align-items: space-betw/een; */
+}
+
 .nav-wrapper {
+  justify-content: space-between;
   background-color: #ccffcc;
   border: solid 2px #00e500;
 }
@@ -51,9 +59,13 @@ body {
   border: solid 2px #00ff00;
 }
 
-/* #user-following-list {
-  background-color: #ccffcc;
-} */
+.card-action > a {
+  color: #94580a !important;
+}
+
+.card-action > a:hover {
+  color: #d88c29 !important;
+}
 
 .btn-floating {
   margin-right: 50px;
@@ -128,6 +140,7 @@ form#blogForm > * {
 }
 
 ul#headerUl li {
+  display: flex;
   margin-left: 15px;
 }
 ul.with-header {
