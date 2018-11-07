@@ -12,7 +12,7 @@ An original social network in react/node. Uses reading hours, purchased credits,
 
 ## Visit App
 
-[Ribbit](https://dashboard.heroku.com/apps/cryptic-chamber-20731)
+[Ribbit](https://cryptic-chamber-20731.herokuapp.com/)
 
 This is using heroku's free tier, so the dyno may be asleep. Give it 10 seconds to startup if you don't see anything.
 
